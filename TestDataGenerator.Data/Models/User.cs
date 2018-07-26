@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using System;
 
 namespace TestDataGenerator.Data.Models
 {
@@ -17,5 +18,8 @@ namespace TestDataGenerator.Data.Models
 
         [BsonField("passwordSalt")]
         public string PasswordSalt { get; set; }
+
+        [BsonField("createDate")]
+        public DateTime CreateDate { get; set; }
     }
 }

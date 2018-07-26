@@ -10,7 +10,7 @@ using TestDataGenerator.Services;
 
 namespace TestDataGenerator.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IDataService _dataService;
 
@@ -21,22 +21,6 @@ namespace TestDataGenerator.Web.Controllers
 
         public ActionResult Index()
         {
-            _dataService.AddUser(new User()
-            {
-                Name = "Marosvölgyi Gergely",
-                PasswordHash = "1234".HashPassword(out string salt),
-                PasswordSalt = salt,
-                Email = "g.marosvolgyi@mortoff.hu"
-            });
-
-            _dataService.AddUser(new User()
-            {
-                Name = "Gönczi Krisztián",
-                PasswordHash = "1234".HashPassword(out salt),
-                PasswordSalt = salt,
-                Email = "k.gonczi@mortoff.hu"
-            });
-
             ViewBag.Users = JsonConvert.SerializeObject(_dataService.GetUsers().ToList());
 
             return View();

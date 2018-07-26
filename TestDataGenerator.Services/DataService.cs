@@ -16,6 +16,8 @@ namespace TestDataGenerator.Services
 
         IEnumerable<User> GetUsers();
 
+        bool RemoveAllRecords<T>();
+
         void RemoveUser(string email);
 
         void CreateSetup();
@@ -57,6 +59,11 @@ namespace TestDataGenerator.Services
         public IEnumerable<User> GetUsers()
         {
             return _db.Query<User>().ToList();
+        }
+
+        public bool RemoveAllRecords<T>()
+        {
+            return _db.Database.DropCollection(typeof(T).Name);
         }
 
         public void RemoveUser(string email)

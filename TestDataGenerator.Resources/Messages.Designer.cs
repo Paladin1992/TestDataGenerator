@@ -61,11 +61,38 @@ namespace TestDataGenerator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Regisztráció.
+        /// </summary>
+        public static string Button_Caption_Register {
+            get {
+                return ResourceManager.GetString("Button_Caption_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ezzel az e-mail címmel már van regisztrált felhasználó..
+        /// </summary>
+        public static string Error_EmailAddress_Exists {
+            get {
+                return ResourceManager.GetString("Error_EmailAddress_Exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Érvénytelen e-mail cím..
         /// </summary>
-        public static string Error_EmailAddress {
+        public static string Error_EmailAddress_Invalid {
             get {
-                return ResourceManager.GetString("Error_EmailAddress", resourceCulture);
+                return ResourceManager.GetString("Error_EmailAddress_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Érvénytelen felhasználónév vagy jelszó..
+        /// </summary>
+        public static string Error_Login_InvalidEmailOrPassword {
+            get {
+                return ResourceManager.GetString("Error_Login_InvalidEmailOrPassword", resourceCulture);
             }
         }
         
@@ -84,6 +111,105 @@ namespace TestDataGenerator.Resources {
         public static string Error_StringLength {
             get {
                 return ResourceManager.GetString("Error_StringLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to pl. valaki@mortoff.hu.
+        /// </summary>
+        public static string Placeholder_Email {
+            get {
+                return ResourceManager.GetString("Placeholder_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Név.
+        /// </summary>
+        public static string Placeholder_Name {
+            get {
+                return ResourceManager.GetString("Placeholder_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bejelentkezés.
+        /// </summary>
+        public static string Title_Login {
+            get {
+                return ResourceManager.GetString("Title_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kijelentkezés.
+        /// </summary>
+        public static string Title_Logout {
+            get {
+                return ResourceManager.GetString("Title_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Regisztráció.
+        /// </summary>
+        public static string Title_Register {
+            get {
+                return ResourceManager.GetString("Title_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A jelszónak legalább {0} karakter hosszúnak kell lennie..
+        /// </summary>
+        public static string Warn_Pw_MinLength {
+            get {
+                return ResourceManager.GetString("Warn_Pw_MinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A jelszónak tartalmaznia kell legalább egy számjegyet..
+        /// </summary>
+        public static string Warn_Pw_MissingDigit {
+            get {
+                return ResourceManager.GetString("Warn_Pw_MissingDigit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A jelszónak tartalmaznia kell legalább egy kisbetűt..
+        /// </summary>
+        public static string Warn_Pw_MissingLowercase {
+            get {
+                return ResourceManager.GetString("Warn_Pw_MissingLowercase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A jelszónak tartalmaznia kell legalább egy speciális karaktert..
+        /// </summary>
+        public static string Warn_Pw_MissingSpecial {
+            get {
+                return ResourceManager.GetString("Warn_Pw_MissingSpecial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A jelszónak tartalmaznia kell legalább egy nagybetűt..
+        /// </summary>
+        public static string Warn_Pw_MissingUppercase {
+            get {
+                return ResourceManager.GetString("Warn_Pw_MissingUppercase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A jelszónak alfanumerikus karakterrel kell kezdődnie..
+        /// </summary>
+        public static string Warn_Pw_MustStartWithAlphanumeric {
+            get {
+                return ResourceManager.GetString("Warn_Pw_MustStartWithAlphanumeric", resourceCulture);
             }
         }
     }

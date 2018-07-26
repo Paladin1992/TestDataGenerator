@@ -7,6 +7,10 @@ namespace TestDataGenerator.Web.Models
     {
         [StringLength(50, ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "Error_StringLength")]
         [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "Error_Required")]
+        public string Name { get; set; }
+
+        [StringLength(50, ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "Error_StringLength")]
+        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "Error_Required")]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
     }

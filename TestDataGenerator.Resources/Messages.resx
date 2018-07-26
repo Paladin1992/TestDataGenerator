@@ -117,13 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Error_EmailAddress" xml:space="preserve">
+  <data name="Button_Caption_Register" xml:space="preserve">
+    <value>Regisztráció</value>
+  </data>
+  <data name="Error_EmailAddress_Exists" xml:space="preserve">
+    <value>Ezzel az e-mail címmel már van regisztrált felhasználó.</value>
+  </data>
+  <data name="Error_EmailAddress_Invalid" xml:space="preserve">
     <value>Érvénytelen e-mail cím.</value>
+  </data>
+  <data name="Error_Login_InvalidEmailOrPassword" xml:space="preserve">
+    <value>Érvénytelen felhasználónév vagy jelszó.</value>
   </data>
   <data name="Error_Required" xml:space="preserve">
     <value>Kötelező mező.</value>
   </data>
   <data name="Error_StringLength" xml:space="preserve">
     <value>A szöveg maximális hossza {0} karakter.</value>
+  </data>
+  <data name="Placeholder_Email" xml:space="preserve">
+    <value>pl. valaki@mortoff.hu</value>
+  </data>
+  <data name="Placeholder_Name" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="Title_Login" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="Title_Logout" xml:space="preserve">
+    <value>Kijelentkezés</value>
+  </data>
+  <data name="Title_Register" xml:space="preserve">
+    <value>Regisztráció</value>
+  </data>
+  <data name="Warn_Pw_MinLength" xml:space="preserve">
+    <value>A jelszónak legalább {0} karakter hosszúnak kell lennie.</value>
+  </data>
+  <data name="Warn_Pw_MissingDigit" xml:space="preserve">
+    <value>A jelszónak tartalmaznia kell legalább egy számjegyet.</value>
+  </data>
+  <data name="Warn_Pw_MissingLowercase" xml:space="preserve">
+    <value>A jelszónak tartalmaznia kell legalább egy kisbetűt.</value>
+  </data>
+  <data name="Warn_Pw_MissingSpecial" xml:space="preserve">
+    <value>A jelszónak tartalmaznia kell legalább egy speciális karaktert.</value>
+  </data>
+  <data name="Warn_Pw_MissingUppercase" xml:space="preserve">
+    <value>A jelszónak tartalmaznia kell legalább egy nagybetűt.</value>
+  </data>
+  <data name="Warn_Pw_MustStartWithAlphanumeric" xml:space="preserve">
+    <value>A jelszónak alfanumerikus karakterrel kell kezdődnie.</value>
   </data>
 </root>

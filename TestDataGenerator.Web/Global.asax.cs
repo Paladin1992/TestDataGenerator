@@ -4,6 +4,7 @@ using Autofac.Integration.WebApi;
 using LiteDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using TestDataGenerator.Services;
+using TestDataGenerator.Web.Controllers;
 
 namespace TestDataGenerator.Web
 {
@@ -30,6 +32,10 @@ namespace TestDataGenerator.Web
             var builder = new ContainerBuilder();
             builder.RegisterType<DataService>().As<IDataService>().InstancePerDependency();
             builder.RegisterInstance(new LiteRepository(@"C:\Temp\TDG.db"));
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.AppSettings()
+                .CreateLogger();
 
             // Get your HttpConfiguration.
             var config = GlobalConfiguration.Configuration;
@@ -66,6 +72,34 @@ namespace TestDataGenerator.Web
 
             GlobalConfiguration.Configuration.Formatters
                 .JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        }
+
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+            throw new Exception("Ez bebaszik neki!");
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var httpContext = ((MvcApplication)sender).Context;
+            var exception = Server.GetLastError();
+
+            if (exception != null)
+            {
+                Log.Error(exception, string.Empty);
+            }
+
+            var controller = new ErrorController();
+            var routeData = new RouteData();
+
+            httpContext.ClearError();
+            httpContext.Response.Clear();
+
+            routeData.Values["controller"] = "Error";
+            routeData.Values["action"] = "Index";
+
+            controller.ViewData.Model = exception;
+            ((IController)controller).Execute(new RequestContext(new HttpContextWrapper(httpContext), routeData));
         }
     }
 }
