@@ -6,8 +6,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
@@ -31,6 +29,8 @@ namespace TestDataGenerator.Web
 
             var builder = new ContainerBuilder();
             builder.RegisterType<DataService>().As<IDataService>().InstancePerDependency();
+            builder.RegisterType<AccountService>().As<IAccountService>().InstancePerDependency();
+            builder.RegisterType<EmailService>().As<IEmailService>().InstancePerDependency();
             builder.RegisterInstance(new LiteRepository(@"C:\Temp\TDG.db"));
 
             Log.Logger = new LoggerConfiguration()
@@ -72,11 +72,6 @@ namespace TestDataGenerator.Web
 
             GlobalConfiguration.Configuration.Formatters
                 .JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-        }
-
-        protected void Application_AuthenticateRequest(object sender, EventArgs e)
-        {
-            throw new Exception("Ez bebaszik neki!");
         }
 
         protected void Application_Error(object sender, EventArgs e)

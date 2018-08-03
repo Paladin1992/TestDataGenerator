@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using TestDataGenerator.Common;
 using TestDataGenerator.Data.Models;
 using TestDataGenerator.Services;
 
@@ -19,11 +15,23 @@ namespace TestDataGenerator.Web.Controllers
             _dataService = dataService;
         }
 
+        // DEBUG ONLY
+        private void DebugDbSet<T>()
+        {
+            ViewData[typeof(T).Name + "s"] = JsonConvert.SerializeObject(_dataService.GetAll<T>().ToList());
+        }
+
         public ActionResult Index()
         {
-            ViewBag.Users = JsonConvert.SerializeObject(_dataService.GetUsers().ToList());
+            DebugDbSet<User>();
+            DebugDbSet<UserSetup>();
 
             return View();
+        }
+
+        public void RemoveAllUsers()
+        {
+            _dataService.RemoveAllRecords<User>();
         }
     }
 }

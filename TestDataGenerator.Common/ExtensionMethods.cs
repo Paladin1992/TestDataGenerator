@@ -1,45 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TestDataGenerator.Common
 {
     public static class ExtensionMethods
     {
-        /// <summary>
-        /// Generates a hash and a salt for this string instance.
-        /// </summary>
-        /// <param name="password"></param>
-        /// <param name="salt">The generated salt for the string.</param>
-        /// <returns></returns>
-        public static string HashPassword(this string password, out string salt)
+        public static Dictionary<string, string> ToDictionary<TModel>(this TModel model) where TModel : class
         {
-            // Generate the hash, with an automatic 32 byte salt
-            var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, 32)
-            {
-                IterationCount = 10000
-            };
-            
-            byte[] _hash = rfc2898DeriveBytes.GetBytes(20);
-            byte[] _salt = rfc2898DeriveBytes.Salt;
-            
-            //Return the salt and the hash
-            salt = Convert.ToBase64String(_salt);
+            // retrieve all public properties from the given model
+            var properties = model.GetType().GetProperties();
 
-            return Convert.ToBase64String(_hash);
-        }
-
-        public static string ToCamelCase(this string str)
-        {
-            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
+            // get placeholder key-value pairs, e.g.: (Key: "FullName", Value: "Gipsz Jakab")
+            var placeholders = new Dictionary<string, string>();
+            for (int i = 0; i < properties.Length; i++)
             {
-                return "";
+                var propName = properties[i].Name;
+                var propValue = properties[i].GetValue(model, null)?.ToString();
+
+                placeholders.Add(propName, propValue);
             }
 
-            return str[0].ToString().ToLower() + str.Substring(1);
+            return placeholders;
         }
     }
 }

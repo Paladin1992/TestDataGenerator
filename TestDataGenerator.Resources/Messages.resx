@@ -117,14 +117,48 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Button_Caption_ChangePassword" xml:space="preserve">
+    <value>Jelszó megváltoztatása</value>
+  </data>
+  <data name="Button_Caption_Login" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="Button_Caption_Logout" xml:space="preserve">
+    <value>Kijelentkezés</value>
+  </data>
   <data name="Button_Caption_Register" xml:space="preserve">
-    <value>Regisztráció</value>
+    <value>Regisztráció küldése</value>
+    <comment> </comment>
+  </data>
+  <data name="Button_Caption_SendEmail" xml:space="preserve">
+    <value>E-mail küldése</value>
+  </data>
+  <data name="Button_Caption_Setup_Create" xml:space="preserve">
+    <value>Létrehozás</value>
+  </data>
+  <data name="Button_Caption_Setup_Save" xml:space="preserve">
+    <value>Beállítások mentése</value>
+  </data>
+  <data name="EmailModel_Default_ForgottenPasswordSubject" xml:space="preserve">
+    <value>Elfelejtett jelszó</value>
+  </data>
+  <data name="EmailModel_Default_FullName" xml:space="preserve">
+    <value>Névtelen</value>
+  </data>
+  <data name="EmailModel_Default_RegSuccessSubject" xml:space="preserve">
+    <value>Sikeres regisztráció</value>
+  </data>
+  <data name="EmailModel_Default_Subject" xml:space="preserve">
+    <value>Nincs tárgy</value>
   </data>
   <data name="Error_EmailAddress_Exists" xml:space="preserve">
     <value>Ezzel az e-mail címmel már van regisztrált felhasználó.</value>
   </data>
   <data name="Error_EmailAddress_Invalid" xml:space="preserve">
     <value>Érvénytelen e-mail cím.</value>
+  </data>
+  <data name="Error_ForgottenPassword" xml:space="preserve">
+    <value>Hiba történt a jelszómódosítás során.</value>
   </data>
   <data name="Error_Login_InvalidEmailOrPassword" xml:space="preserve">
     <value>Érvénytelen felhasználónév vagy jelszó.</value>
@@ -135,17 +169,44 @@
   <data name="Error_StringLength" xml:space="preserve">
     <value>A szöveg maximális hossza {0} karakter.</value>
   </data>
+  <data name="Info_ForgottenPw_VerifyEmailSent" xml:space="preserve">
+    <value>Küldtünk Önnek egy e-mailt, benne egy, a jelszó módosítását megerősítő linkkel. Az érvényesség lejárati ideje: {0}.</value>
+  </data>
+  <data name="Link_Caption_Back" xml:space="preserve">
+    <value>Vissza</value>
+  </data>
+  <data name="Link_Caption_ForgottenPassword" xml:space="preserve">
+    <value>Elfelejtett jelszó</value>
+  </data>
+  <data name="Link_Caption_Setup_Create" xml:space="preserve">
+    <value>Új beállítás létrehozása</value>
+  </data>
+  <data name="Link_Caption_Setup_Edit" xml:space="preserve">
+    <value>Beállítások szerkesztése</value>
+  </data>
+  <data name="Link_Caption_Setup_List" xml:space="preserve">
+    <value>Beállítások megtekintése</value>
+  </data>
   <data name="Placeholder_Email" xml:space="preserve">
     <value>pl. valaki@mortoff.hu</value>
   </data>
   <data name="Placeholder_Name" xml:space="preserve">
     <value>Név</value>
   </data>
+  <data name="Success_PasswordChanged" xml:space="preserve">
+    <value>A jelszó megváltoztatása sikeres volt.</value>
+  </data>
+  <data name="Title_ForgottenPassword" xml:space="preserve">
+    <value>Elfelejtett jelszó</value>
+  </data>
   <data name="Title_Login" xml:space="preserve">
     <value>Bejelentkezés</value>
   </data>
   <data name="Title_Logout" xml:space="preserve">
     <value>Kijelentkezés</value>
+  </data>
+  <data name="Title_PasswordChange" xml:space="preserve">
+    <value>Jelszó megváltoztatása</value>
   </data>
   <data name="Title_Register" xml:space="preserve">
     <value>Regisztráció</value>

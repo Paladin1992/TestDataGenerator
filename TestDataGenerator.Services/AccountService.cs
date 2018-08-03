@@ -1,8 +1,7 @@
-﻿using System;
+﻿using LiteDB;
+using Serilog;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestDataGenerator.Common;
 using TestDataGenerator.Data.Models;
 
@@ -15,52 +14,83 @@ namespace TestDataGenerator.Services
         /// that contains information about the success of the operation,
         /// and the Exception itself, if one had occured.
         /// </summary>
-        /// <param name="user">The user who we want to create an account for.</param>
+        /// <param name="user">The user we want to create an account for.</param>
         /// <returns></returns>
         ResponseModel CreateAccount(User user);
 
+        ResponseModel UpdateAccount(User user);
+
         User GetUserByEmail(string email);
 
-        void ChangePassword(int userId, string newPasswordHash);
+        IEnumerable<User> GetUsers();
 
-        User ForgottenPasswordRequest(string email);
+        void ChangePassword(User user, string newPasswordHash);
+
+        void RemoveUser(string email);
     }
 
     public class AccountService : IAccountService
     {
-        private readonly IDataService _dataService;
+        private readonly LiteRepository _db;
 
-        public AccountService(IDataService dataService)
+        public AccountService(LiteRepository liteRepository)
         {
-            _dataService = dataService;
-        }
-
-        public void ChangePassword(int userId, string newPasswordHash)
-        {
-            throw new NotImplementedException();
+            _db = liteRepository;
         }
 
         public ResponseModel CreateAccount(User user)
         {
             try
             {
-                _dataService.AddUser(user);
+                _db.Insert(user);
                 return new ResponseModel(true);
             }
             catch (Exception ex)
             {
+                Log.Error(ex, ex.Message);
                 return new ResponseModel(false, ex);
             }
         }
 
-        public User ForgottenPasswordRequest(string email)
+        public ResponseModel UpdateAccount(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _db.Update(user);
+                return new ResponseModel(true);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, ex.Message);
+                return new ResponseModel(false, ex);
+            }
+        }
+
+        public void ChangePassword(User user, string newPassword)
+        {
+            if (user != null)
+            {
+                var (salt, hash) = PBKDF2.HashPassword(newPassword);
+                user.PasswordHash = hash;
+                user.PasswordSalt = salt;
+
+                _db.Update(user);
+            }
         }
 
         public User GetUserByEmail(string email)
         {
-            return _dataService.GetUserByEmail(email);
+            return _db.Query<User>().Where(u => u.Email == email).FirstOrDefault();
+        }
+
+        public IEnumerable<User> GetUsers()
+        {
+            return _db.Query<User>().ToList();
+        }
+
+        public void RemoveUser(string email)
+        {
+            _db.Delete<User>(u => u.Email == email);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace TestDataGenerator.Web.Controllers
                 $"{controller}/{action} " +
                 $"UserName: {filterContext.HttpContext.User?.Identity?.Name}");
 
+            filterContext.ExceptionHandled = true;
+
             filterContext.Result = new RedirectToRouteResult(
                 new RouteValueDictionary(new { controller = "Error", action = "Index" })
             );

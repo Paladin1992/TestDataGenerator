@@ -61,11 +61,101 @@ namespace TestDataGenerator.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Regisztráció.
+        ///   Looks up a localized string similar to Jelszó megváltoztatása.
+        /// </summary>
+        public static string Button_Caption_ChangePassword {
+            get {
+                return ResourceManager.GetString("Button_Caption_ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bejelentkezés.
+        /// </summary>
+        public static string Button_Caption_Login {
+            get {
+                return ResourceManager.GetString("Button_Caption_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kijelentkezés.
+        /// </summary>
+        public static string Button_Caption_Logout {
+            get {
+                return ResourceManager.GetString("Button_Caption_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Regisztráció küldése.
         /// </summary>
         public static string Button_Caption_Register {
             get {
                 return ResourceManager.GetString("Button_Caption_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail küldése.
+        /// </summary>
+        public static string Button_Caption_SendEmail {
+            get {
+                return ResourceManager.GetString("Button_Caption_SendEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Létrehozás.
+        /// </summary>
+        public static string Button_Caption_Setup_Create {
+            get {
+                return ResourceManager.GetString("Button_Caption_Setup_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beállítások mentése.
+        /// </summary>
+        public static string Button_Caption_Setup_Save {
+            get {
+                return ResourceManager.GetString("Button_Caption_Setup_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elfelejtett jelszó.
+        /// </summary>
+        public static string EmailModel_Default_ForgottenPasswordSubject {
+            get {
+                return ResourceManager.GetString("EmailModel_Default_ForgottenPasswordSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Névtelen.
+        /// </summary>
+        public static string EmailModel_Default_FullName {
+            get {
+                return ResourceManager.GetString("EmailModel_Default_FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sikeres regisztráció.
+        /// </summary>
+        public static string EmailModel_Default_RegSuccessSubject {
+            get {
+                return ResourceManager.GetString("EmailModel_Default_RegSuccessSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nincs tárgy.
+        /// </summary>
+        public static string EmailModel_Default_Subject {
+            get {
+                return ResourceManager.GetString("EmailModel_Default_Subject", resourceCulture);
             }
         }
         
@@ -84,6 +174,15 @@ namespace TestDataGenerator.Resources {
         public static string Error_EmailAddress_Invalid {
             get {
                 return ResourceManager.GetString("Error_EmailAddress_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hiba történt a jelszómódosítás során..
+        /// </summary>
+        public static string Error_ForgottenPassword {
+            get {
+                return ResourceManager.GetString("Error_ForgottenPassword", resourceCulture);
             }
         }
         
@@ -115,6 +214,60 @@ namespace TestDataGenerator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Küldtünk Önnek egy e-mailt, benne egy, a jelszó módosítását megerősítő linkkel. Az érvényesség lejárati ideje: {0}..
+        /// </summary>
+        public static string Info_ForgottenPw_VerifyEmailSent {
+            get {
+                return ResourceManager.GetString("Info_ForgottenPw_VerifyEmailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vissza.
+        /// </summary>
+        public static string Link_Caption_Back {
+            get {
+                return ResourceManager.GetString("Link_Caption_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elfelejtett jelszó.
+        /// </summary>
+        public static string Link_Caption_ForgottenPassword {
+            get {
+                return ResourceManager.GetString("Link_Caption_ForgottenPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Új beállítás létrehozása.
+        /// </summary>
+        public static string Link_Caption_Setup_Create {
+            get {
+                return ResourceManager.GetString("Link_Caption_Setup_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beállítások szerkesztése.
+        /// </summary>
+        public static string Link_Caption_Setup_Edit {
+            get {
+                return ResourceManager.GetString("Link_Caption_Setup_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beállítások megtekintése.
+        /// </summary>
+        public static string Link_Caption_Setup_List {
+            get {
+                return ResourceManager.GetString("Link_Caption_Setup_List", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to pl. valaki@mortoff.hu.
         /// </summary>
         public static string Placeholder_Email {
@@ -133,6 +286,24 @@ namespace TestDataGenerator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A jelszó megváltoztatása sikeres volt..
+        /// </summary>
+        public static string Success_PasswordChanged {
+            get {
+                return ResourceManager.GetString("Success_PasswordChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elfelejtett jelszó.
+        /// </summary>
+        public static string Title_ForgottenPassword {
+            get {
+                return ResourceManager.GetString("Title_ForgottenPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bejelentkezés.
         /// </summary>
         public static string Title_Login {
@@ -147,6 +318,15 @@ namespace TestDataGenerator.Resources {
         public static string Title_Logout {
             get {
                 return ResourceManager.GetString("Title_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jelszó megváltoztatása.
+        /// </summary>
+        public static string Title_PasswordChange {
+            get {
+                return ResourceManager.GetString("Title_PasswordChange", resourceCulture);
             }
         }
         

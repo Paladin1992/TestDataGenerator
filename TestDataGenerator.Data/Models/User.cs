@@ -21,5 +21,11 @@ namespace TestDataGenerator.Data.Models
 
         [BsonField("createDate")]
         public DateTime CreateDate { get; set; }
+
+        [BsonField("passwordVerifyCode")]
+        public string PasswordVerifyCode { get; set; }
+
+        [BsonField("passwordVerifyCodeExpirationDate")]
+        public DateTime? PasswordVerifyCodeExpirationDate { get; set; }
     }
 }

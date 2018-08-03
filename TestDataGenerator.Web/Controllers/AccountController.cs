@@ -1,14 +1,12 @@
 ﻿using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using TestDataGenerator.Common;
 using TestDataGenerator.Data.Models;
 using TestDataGenerator.Resources;
 using TestDataGenerator.Services;
+using TestDataGenerator.Services.Models;
 using TestDataGenerator.Web.Models;
 
 namespace TestDataGenerator.Web.Controllers
@@ -17,9 +15,12 @@ namespace TestDataGenerator.Web.Controllers
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        private readonly IEmailService _emailService;
+
+        public AccountController(IAccountService accountService, IEmailService emailService)
         {
             _accountService = accountService;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -49,12 +50,14 @@ namespace TestDataGenerator.Web.Controllers
                 }
                 else // user does not exist -> register
                 {
+                    var (salt, hash) = PBKDF2.HashPassword(model.Password);
+
                     var user = new User()
                     {
                         Name = model.Name,
                         Email = model.Email,
-                        PasswordHash = model.Password.HashPassword(out string salt),
-                        PasswordSalt = salt,
+                        PasswordHash = salt,
+                        PasswordSalt = hash,
                         CreateDate = DateTime.Now
                     };
 
@@ -62,6 +65,14 @@ namespace TestDataGenerator.Web.Controllers
 
                     if (userCreatedSuccess)
                     {
+                        var emailModel = new RegSuccessEmailModel()
+                        {
+                            To = model.Email,
+                            FullName = model.Name
+                        };
+
+                        _emailService.CreateAndSend(emailModel, this);
+
                         return RedirectToAction("Login", "Account");
                     }
                     else
@@ -80,7 +91,7 @@ namespace TestDataGenerator.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index", "Home");
             }
 
             var model = new LoginViewModel();
@@ -93,17 +104,16 @@ namespace TestDataGenerator.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _accountService.GetUserByEmail(model.Email);
-                var hashedPassword = model.Password.HashPassword(out string salt);
+                var user = _accountService.GetUserByEmail(model.Email);                
                 
                 // if user exists and passwords match --> successful login
-                if (user != null && user.PasswordHash.Equals(hashedPassword, StringComparison.InvariantCultureIgnoreCase))
+                if (user != null && PBKDF2.ValidatePassword(model.Password, user.PasswordHash, user.PasswordSalt))
                 {
                     Session.Clear();
                     FormsAuthentication.SetAuthCookie(user.Email, false);
                     Session["SessionEnd"] = DateTime.Now.AddMinutes(Session.Timeout);
 
-                    return RedirectToAction("Index", "Account");
+                    return RedirectToAction("Index", "Home");
                 }
                 else // user does not exist or passwords don't match
                 {
@@ -123,6 +133,124 @@ namespace TestDataGenerator.Web.Controllers
             Session.Clear();
 
             return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpGet]
+        public ActionResult ForgottenPassword()
+        {
+            var model = new ForgottenPasswordViewModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgottenPassword(ForgottenPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!string.IsNullOrEmpty(model.Email))
+                {
+                    var user = _accountService.GetUserByEmail(model.Email);
+
+                    if (user != null)
+                    {
+                        user.PasswordVerifyCode = Guid.NewGuid().ToString("N");
+                        user.PasswordVerifyCodeExpirationDate = DateTime.Now.AddMinutes(AppConfig.Account.SecurityCodeValidMinutes);
+                        _accountService.UpdateAccount(user);
+
+                        var link = Url.Action("PasswordChange", "Account", new
+                        {
+                            code = user.PasswordVerifyCode,
+                            email = user.Email
+                        },
+                        Request.Url.Scheme);
+
+                        var emailModel = new ForgottenPasswordEmailModel()
+                        {
+                            FullName = user.Name,
+                            To = model.Email,
+                            VerifyLink = link,
+                            ExpirationDate = user.PasswordVerifyCodeExpirationDate.ToString()
+                        };
+
+                        _emailService.CreateAndSend(emailModel, this);
+
+                        TempData["EmailSent"] = string.Format(Messages.Info_ForgottenPw_VerifyEmailSent,
+                                                              emailModel.ExpirationDate);
+                    }
+                    else // user does not exist --> redirect to register
+                    {
+                        return RedirectToAction("Register", "Account");
+                    }
+                }
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult PasswordChange(string email, string code)
+        {
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(code))
+            {
+                var tmpEmail = email ?? User.Identity.Name;
+                var user = _accountService.GetUserByEmail(tmpEmail);
+
+                if (user != null && user.PasswordVerifyCode == code)
+                {
+                    var model = new PasswordChangeViewModel()
+                    {
+                        Email = tmpEmail
+                    };
+
+                    return View(model);
+                }
+            }
+
+            return RedirectToAction("Login", "Account");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PasswordChange(PasswordChangeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _accountService.GetUserByEmail(model.Email);
+
+                if (user != null)
+                {
+                    // if verification link hasn't expired yet
+                    if (user.PasswordVerifyCodeExpirationDate.HasValue
+                        && user.PasswordVerifyCodeExpirationDate.Value <= DateTime.Now)
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else // new password -> change
+                    {
+                        try
+                        {
+                            _accountService.ChangePassword(user, model.Password);
+
+                            TempData["PasswordChanged"] = Messages.Success_PasswordChanged;
+
+                            FormsAuthentication.SignOut();
+                            Session.Clear();
+
+                            return RedirectToAction("Login", "Account");
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("", Messages.Error_ForgottenPassword);
+                            Log.Error(ex, ex.Message);
+                        }
+                    }
+                }
+            }
+
+            return View(model);
         }
     }
 }

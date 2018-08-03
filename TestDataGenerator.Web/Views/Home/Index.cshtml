@@ -1,8 +1,31 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using TestDataGenerator.Resources
+@{
+    ViewBag.Title = "Főoldal";
     var users = ViewBag.Users;
+    var userSetups = ViewBag.UserSetups;
 }
 
+@if (User.Identity.IsAuthenticated)
+{
+    @Html.ActionLink(Messages.Button_Caption_Logout, "Logout", "Account")
+
+    @Html.ActionLink(Messages.Link_Caption_Setup_List, "Index", "Setup")
+    @Html.ActionLink(Messages.Link_Caption_Setup_Create, "Create", "Setup")
+    @Html.ActionLink(Messages.Link_Caption_Setup_Edit, "Edit", "Setup")
+}
+else
+{
+    @Html.ActionLink(Messages.Button_Caption_Register, "Register", "Account")
+    @Html.ActionLink(Messages.Button_Caption_Login, "Login", "Account")
+    @Html.ActionLink(Messages.Link_Caption_ForgottenPassword, "ForgottenPassword", "Account")
+}
+
+@Html.ActionLink("Minden felhasználó törlése", "RemoveAllUsers", "Account")
+
 <pre>
-    @users
+@users
+</pre>
+
+<pre>
+@userSetups
 </pre>
