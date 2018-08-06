@@ -286,7 +286,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Setup\Create.cshtml" />
     <Content Include="Views\Setup\Edit.cshtml" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\PasswordChange.cshtml" />
     <Content Include="Views\Account\ForgottenPassword.cshtml" />
     <Content Include="Views\EmailTemplates\_EmailLayout.html" />
   </ItemGroup>

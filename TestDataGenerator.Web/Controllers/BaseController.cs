@@ -23,7 +23,8 @@ namespace TestDataGenerator.Web.Controllers
 
             Log.Error($"{filterContext.HttpContext.Request.RequestType} " +
                 $"{controller}/{action} " +
-                $"UserName: {filterContext.HttpContext.User?.Identity?.Name}");
+                $"UserName: {filterContext.HttpContext.User?.Identity?.Name}\r\n" +
+                $"Exception: {filterContext.Exception}");
 
             filterContext.ExceptionHandled = true;
 
