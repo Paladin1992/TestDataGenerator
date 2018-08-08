@@ -6,14 +6,9 @@ namespace TestDataGenerator.Data.Models
     public class UserSetup
     {
         /// <summary>
-        /// A GUID to uniquely identify the setup.
+        /// A unique identifier for the setup.
         /// </summary>
-        public Guid Id { get; set; }
-
-        /// <summary>
-        /// The email address of the user as a foreign key.
-        /// </summary>
-        public string Email { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// A user-defined name to identify the setup.

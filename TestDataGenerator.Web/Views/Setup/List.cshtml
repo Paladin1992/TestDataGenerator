@@ -1,0 +1,17 @@
+﻿@using TestDataGenerator.Resources
+@{
+    ViewBag.Title = Messages.Title_SetupList;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div id="setupGrid"></div>
+
+<div>
+    @Html.ActionLink(Messages.Link_Caption_Back, "Index", "Home")
+</div>
+
+@section scripts {
+    <script src="~/Scripts/app/setup/list.js"></script>
+}

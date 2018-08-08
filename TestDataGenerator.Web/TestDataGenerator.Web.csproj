@@ -56,6 +56,9 @@
     <Reference Include="Autofac.Integration.WebApi, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.4.2.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="LiteDB">
       <HintPath>..\TestDataGenerator.Data\bin\Debug\LiteDB.dll</HintPath>
     </Reference>
@@ -105,6 +108,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -175,6 +179,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -188,13 +193,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\PasswordChangeViewModel.cs" />
-    <Compile Include="Models\ForgottenPasswordViewModel.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\RegisterViewModel.cs" />
-    <Compile Include="Models\SetupCreateViewModel.cs" />
-    <Compile Include="Models\SetupEditViewModel.cs" />
-    <Compile Include="Models\UserSetupViewModel.cs" />
+    <Compile Include="Models\Account\PasswordChangeViewModel.cs" />
+    <Compile Include="Models\Account\ForgottenPasswordViewModel.cs" />
+    <Compile Include="Models\Account\LoginViewModel.cs" />
+    <Compile Include="Models\Account\RegisterViewModel.cs" />
+    <Compile Include="Models\Setup\ListItemUserSetupViewModel.cs" />
+    <Compile Include="Models\Setup\SetupCreateViewModel.cs" />
+    <Compile Include="Models\Setup\SetupEditViewModel.cs" />
+    <Compile Include="Models\Setup\UserSetupViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -204,9 +210,31 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fonts\DejaVu\LICENSE.txt" />
+    <Content Include="Content\fonts\glyphs\KendoUIGlyphs.svg" />
+    <Content Include="Content\fonts\glyphs\WebComponentsIcons.svg" />
+    <Content Include="Content\kendo.common.min.css" />
+    <Content Include="Content\kendo.silver.min.css" />
+    <Content Include="Content\Silver\editor.png" />
+    <Content Include="Content\Silver\imagebrowser.png" />
+    <Content Include="Content\Silver\indeterminate.gif" />
+    <Content Include="Content\Silver\loading-image.gif" />
+    <Content Include="Content\Silver\loading.gif" />
+    <Content Include="Content\Silver\loading_2x.gif" />
+    <Content Include="Content\Silver\markers.png" />
+    <Content Include="Content\Silver\markers_2x.png" />
+    <Content Include="Content\Silver\slider-h.gif" />
+    <Content Include="Content\Silver\slider-v.gif" />
+    <Content Include="Content\Silver\sprite.png" />
+    <Content Include="Content\Silver\sprite_2x.png" />
+    <Content Include="Content\Silver\sprite_kpi.png" />
+    <Content Include="Content\Silver\sprite_kpi_2x.png" />
     <Content Include="Content\Site.min.css">
       <DependentUpon>Site.css</DependentUpon>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\app\setup\list.js" />
+    <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Views\EmailTemplates\ForgottenPasswordEmailTemplate.html" />
     <Content Include="Views\EmailTemplates\RegSuccessEmailTemplate.html" />
     <Content Include="favicon.ico" />
@@ -242,6 +270,29 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\fonts\DejaVu\DejaVuSans-Bold.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSans-BoldOblique.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSans-ExtraLight.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSans-Oblique.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSans.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSansMono-Bold.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSansMono-BoldOblique.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSansMono-Oblique.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSansMono.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSerif-Bold.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSerif-BoldItalic.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSerif-Italic.ttf" />
+    <Content Include="Content\fonts\DejaVu\DejaVuSerif.ttf" />
+    <Content Include="Content\fonts\glyphs\KendoUIGlyphs.eot" />
+    <Content Include="Content\fonts\glyphs\KendoUIGlyphs.ttf" />
+    <Content Include="Content\fonts\glyphs\KendoUIGlyphs.woff" />
+    <Content Include="Content\fonts\glyphs\WebComponentsIcons.eot" />
+    <Content Include="Content\fonts\glyphs\WebComponentsIcons.ttf" />
+    <Content Include="Content\fonts\glyphs\WebComponentsIcons.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -289,6 +340,7 @@
     <Content Include="Views\Account\PasswordChange.cshtml" />
     <Content Include="Views\Account\ForgottenPassword.cshtml" />
     <Content Include="Views\EmailTemplates\_EmailLayout.html" />
+    <Content Include="Views\Setup\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

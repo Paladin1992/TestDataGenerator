@@ -127,8 +127,7 @@
     <value>Kijelentkezés</value>
   </data>
   <data name="Button_Caption_Register" xml:space="preserve">
-    <value>Regisztráció küldése</value>
-    <comment> </comment>
+    <value>Regisztrálok</value>
   </data>
   <data name="Button_Caption_SendEmail" xml:space="preserve">
     <value>E-mail küldése</value>
@@ -178,6 +177,15 @@
   <data name="Link_Caption_ForgottenPassword" xml:space="preserve">
     <value>Elfelejtett jelszó</value>
   </data>
+  <data name="Link_Caption_Login" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="Link_Caption_Logout" xml:space="preserve">
+    <value>Kijelentkezés</value>
+  </data>
+  <data name="Link_Caption_Register" xml:space="preserve">
+    <value>Regisztráció</value>
+  </data>
   <data name="Link_Caption_Setup_Create" xml:space="preserve">
     <value>Új beállítás létrehozása</value>
   </data>
@@ -210,6 +218,9 @@
   </data>
   <data name="Title_Register" xml:space="preserve">
     <value>Regisztráció</value>
+  </data>
+  <data name="Title_SetupList" xml:space="preserve">
+    <value>Beállítások áttekintése</value>
   </data>
   <data name="Warn_Pw_MinLength" xml:space="preserve">
     <value>A jelszónak legalább {0} karakter hosszúnak kell lennie.</value>

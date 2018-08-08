@@ -31,6 +31,10 @@ namespace TestDataGenerator.Services.Models
 
     public class RegSuccessEmailModel : EmailModel
     {
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
         public RegSuccessEmailModel()
             : base(subject: Messages.EmailModel_Default_RegSuccessSubject)
         {

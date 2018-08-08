@@ -17,7 +17,23 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/kendo")
     @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        window.baseURL = '@Url.Content("~")';
+
+        function fromJsonDate(date) {
+            if (date && typeof date === 'string') {
+                // "/Date(1533074400000)/" --> "1533074400000"
+                var purifiedDate = Number(date.replace(/\/Date\(|\)\//g, ''));
+
+                return new Date(purifiedDate);
+            }
+
+            return null;
+        }
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -29,9 +29,13 @@ namespace TestDataGenerator.Web.Controllers
             return View();
         }
 
-        public void RemoveAllUsers()
+        // DEBUG ONLY
+        [HttpGet]
+        public ActionResult RemoveAllUsers(bool keepCounter = true)
         {
-            _dataService.RemoveAllRecords<User>();
+            _dataService.RemoveAllRecords<User>(keepCounter);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -56,8 +56,8 @@ namespace TestDataGenerator.Web.Controllers
                     {
                         Name = model.Name,
                         Email = model.Email,
-                        PasswordHash = salt,
-                        PasswordSalt = hash,
+                        PasswordHash = hash,
+                        PasswordSalt = salt,
                         CreateDate = DateTime.Now
                     };
 
@@ -68,7 +68,9 @@ namespace TestDataGenerator.Web.Controllers
                         var emailModel = new RegSuccessEmailModel()
                         {
                             To = model.Email,
-                            FullName = model.Name
+                            FullName = model.Name,
+                            Email = model.Email,
+                            Password = model.Password
                         };
 
                         _emailService.CreateAndSend(emailModel, this);

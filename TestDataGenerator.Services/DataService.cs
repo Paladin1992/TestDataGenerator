@@ -7,7 +7,7 @@ namespace TestDataGenerator.Services
     {
         IEnumerable<T> GetAll<T>();
 
-        bool RemoveAllRecords<T>();
+        void RemoveAllRecords<T>(bool resetCounter);
     }
 
     public class DataService : IDataService
@@ -24,9 +24,16 @@ namespace TestDataGenerator.Services
             return _db.Query<T>().ToEnumerable();
         }
 
-        public bool RemoveAllRecords<T>()
+        public void RemoveAllRecords<T>(bool resetCounter = false)
         {
-            return _db.Database.DropCollection(typeof(T).Name);
+            if (resetCounter)
+            {
+                _db.Database.DropCollection(typeof(T).Name);
+            }
+            else
+            {
+                _db.Delete<T>(record => true);
+            }
         }
     }
 }

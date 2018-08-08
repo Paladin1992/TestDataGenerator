@@ -88,7 +88,7 @@ namespace TestDataGenerator.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Regisztráció küldése.
+        ///   Looks up a localized string similar to Regisztrálok.
         /// </summary>
         public static string Button_Caption_Register {
             get {
@@ -241,6 +241,33 @@ namespace TestDataGenerator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bejelentkezés.
+        /// </summary>
+        public static string Link_Caption_Login {
+            get {
+                return ResourceManager.GetString("Link_Caption_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kijelentkezés.
+        /// </summary>
+        public static string Link_Caption_Logout {
+            get {
+                return ResourceManager.GetString("Link_Caption_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Regisztráció.
+        /// </summary>
+        public static string Link_Caption_Register {
+            get {
+                return ResourceManager.GetString("Link_Caption_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Új beállítás létrehozása.
         /// </summary>
         public static string Link_Caption_Setup_Create {
@@ -336,6 +363,15 @@ namespace TestDataGenerator.Resources {
         public static string Title_Register {
             get {
                 return ResourceManager.GetString("Title_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beállítások áttekintése.
+        /// </summary>
+        public static string Title_SetupList {
+            get {
+                return ResourceManager.GetString("Title_SetupList", resourceCulture);
             }
         }
         

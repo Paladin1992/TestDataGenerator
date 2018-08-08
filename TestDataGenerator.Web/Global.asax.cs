@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using AutoMapper;
 using LiteDB;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -13,6 +14,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using TestDataGenerator.Services;
+using TestDataGenerator.Web.App_Start;
 using TestDataGenerator.Web.Controllers;
 
 namespace TestDataGenerator.Web
@@ -31,7 +33,11 @@ namespace TestDataGenerator.Web
             builder.RegisterType<DataService>().As<IDataService>().InstancePerDependency();
             builder.RegisterType<AccountService>().As<IAccountService>().InstancePerDependency();
             builder.RegisterType<EmailService>().As<IEmailService>().InstancePerDependency();
+            builder.RegisterType<SetupService>().As<ISetupService>().InstancePerDependency();
             builder.RegisterInstance(new LiteRepository(@"C:\Temp\TDG.db"));
+
+            var mapper = AutoMapperConfig.Configure();
+            builder.RegisterInstance(mapper).As<IMapper>();
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.AppSettings()
@@ -72,6 +78,32 @@ namespace TestDataGenerator.Web
 
             GlobalConfiguration.Configuration.Formatters
                 .JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            ViewEngines.Engines.Clear();
+            var customEngine = new RazorViewEngine
+            {
+                PartialViewLocationFormats = new string[]
+                {
+                    "~/Views/{1}/{0}.cshtml",
+                    "~/Views/Shared/{0}.cshtml",
+                    "~/Views/Partial/{0}.cshtml",
+                    "~/Views/Partial/{1}/{0}.cshtml"
+                },
+
+                ViewLocationFormats = new string[]
+                {
+                    "~/Views/{1}/{0}.cshtml",
+                    "~/Views/Shared/{0}.cshtml"
+                },
+
+                MasterLocationFormats = new string[]
+                {
+                    "~/Views/Shared/{0}.cshtml",
+                    "~/Views/Layout/{0}.cshtml"
+                }
+            };
+
+            ViewEngines.Engines.Add(customEngine);
         }
 
         protected void Application_Error(object sender, EventArgs e)

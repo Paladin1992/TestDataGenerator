@@ -27,6 +27,8 @@ namespace TestDataGenerator.Services
         void ChangePassword(User user, string newPasswordHash);
 
         void RemoveUser(string email);
+
+        void RemoveAllUsers();
     }
 
     public class AccountService : IAccountService
@@ -91,6 +93,11 @@ namespace TestDataGenerator.Services
         public void RemoveUser(string email)
         {
             _db.Delete<User>(u => u.Email == email);
+        }
+
+        public void RemoveAllUsers()
+        {
+            _db.Delete<User>(u => true);
         }
     }
 }
