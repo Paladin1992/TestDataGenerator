@@ -193,6 +193,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\MvcHelpers.cs" />
     <Compile Include="Models\Account\PasswordChangeViewModel.cs" />
     <Compile Include="Models\Account\ForgottenPasswordViewModel.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
@@ -233,8 +234,11 @@
       <DependentUpon>Site.css</DependentUpon>
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\app\setup\create.js" />
     <Content Include="Scripts\app\setup\list.js" />
     <Content Include="Scripts\kendo.all.min.js" />
+    <Content Include="Scripts\knockout-3.4.2.debug.js" />
+    <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="Views\EmailTemplates\ForgottenPasswordEmailTemplate.html" />
     <Content Include="Views\EmailTemplates\RegSuccessEmailTemplate.html" />
     <Content Include="favicon.ico" />
@@ -341,6 +345,7 @@
     <Content Include="Views\Account\ForgottenPassword.cshtml" />
     <Content Include="Views\EmailTemplates\_EmailLayout.html" />
     <Content Include="Views\Setup\List.cshtml" />
+    <Content Include="Views\Setup\_Field.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

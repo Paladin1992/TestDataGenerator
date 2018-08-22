@@ -12,7 +12,7 @@ namespace TestDataGenerator.Web.Models
 
         public string Email { get; set; }
 
-        public List<IFieldModel> Fields { get; set; } = new List<IFieldModel>();
+        public List<FieldModel> Fields { get; set; } = new List<FieldModel>();
 
         public DateTime CreateDate { get; set; }
     }

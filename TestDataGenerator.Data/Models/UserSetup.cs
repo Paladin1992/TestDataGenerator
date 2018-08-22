@@ -11,6 +11,11 @@ namespace TestDataGenerator.Data.Models
         public int Id { get; set; }
 
         /// <summary>
+        /// The email to identify the user.
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
         /// A user-defined name to identify the setup.
         /// </summary>
         public string Name { get; set; }
@@ -18,7 +23,7 @@ namespace TestDataGenerator.Data.Models
         /// <summary>
         /// The fields related to the current setup.
         /// </summary>
-        public List<IFieldModel> Fields { get; set; } = new List<IFieldModel>();
+        public List<FieldModel> Fields { get; set; } = new List<FieldModel>();
 
         /// <summary>
         /// The date the setup was created on.

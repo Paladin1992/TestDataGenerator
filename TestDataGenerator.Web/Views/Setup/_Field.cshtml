@@ -1,0 +1,40 @@
+﻿@using TestDataGenerator.Resources
+@using TestDataGenerator.Services.Models
+@using TestDataGenerator.Web.Models
+@model SetupCreateViewModel
+@{
+    List<FieldTypeInfo> fieldTypeInfos = ViewBag.FieldTypeInfos;
+}
+
+<div class="tdg-field-container clearfix" style="display: none;" data-bind="visible: true">
+
+    <div class="tdg-field name">
+        <span>Név:</span>
+        <input type="text" maxlength="50" data-bind="value: name">
+    </div>
+
+    <div class="tdg-field type">
+        <span>Típus:</span>
+        <select data-bind="attr: { id: 'select-'+($parent.fields.length+1) }, value: field.fieldType">
+            @foreach (var item in fieldTypeInfos)
+            {
+                <option value="@item.Value" @(item.Value == 0 ? " selected disabled" : null)>@item.Description</option>
+            }
+        </select>
+    </div>
+
+    <div class="tdg-field min">
+        <span>Min:</span>
+        <div data-bind="enable: field.hasMinValue">
+
+        </div>
+    </div>
+
+    <div class="tdg-field max">
+        <span>Max:</span>
+        <div data-bind="enable: field.hasMaxValue">
+
+        </div>
+    </div>
+
+</div>

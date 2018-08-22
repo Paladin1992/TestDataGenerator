@@ -126,6 +126,9 @@
   <data name="Button_Caption_Logout" xml:space="preserve">
     <value>Kijelentkezés</value>
   </data>
+  <data name="Button_Caption_NewField" xml:space="preserve">
+    <value>Új mező</value>
+  </data>
   <data name="Button_Caption_Register" xml:space="preserve">
     <value>Regisztrálok</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="Button_Caption_Setup_Save" xml:space="preserve">
     <value>Beállítások mentése</value>
+  </data>
+  <data name="Dropdown_FieldTypeDefault" xml:space="preserve">
+    <value>Válasszon</value>
   </data>
   <data name="EmailModel_Default_ForgottenPasswordSubject" xml:space="preserve">
     <value>Elfelejtett jelszó</value>

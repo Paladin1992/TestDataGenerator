@@ -15,3 +15,24 @@ body {
 a {
   padding: 0 5px;
 }
+.tdg-toolbar {
+  margin-top: 20px;
+}
+.tdg-field-container {
+  border: 1px solid #999;
+}
+.tdg-field-container .tdg-field {
+  float: left;
+}
+.tdg-field-container .tdg-field.name {
+  background-color: skyblue;
+}
+.tdg-field-container .tdg-field.type {
+  background-color: yellowgreen;
+}
+.tdg-field-container .tdg-field.min {
+  background-color: orange;
+}
+.tdg-field-container .tdg-field.max {
+  background-color: rosybrown;
+}

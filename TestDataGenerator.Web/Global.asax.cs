@@ -34,6 +34,7 @@ namespace TestDataGenerator.Web
             builder.RegisterType<AccountService>().As<IAccountService>().InstancePerDependency();
             builder.RegisterType<EmailService>().As<IEmailService>().InstancePerDependency();
             builder.RegisterType<SetupService>().As<ISetupService>().InstancePerDependency();
+            builder.RegisterInstance(new DataGeneratorService());
             builder.RegisterInstance(new LiteRepository(@"C:\Temp\TDG.db"));
 
             var mapper = AutoMapperConfig.Configure();

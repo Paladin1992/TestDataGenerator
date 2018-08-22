@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\HasExtremeAttribute.cs" />
     <Compile Include="Enums\FieldType.cs" />
+    <Compile Include="Enums\LetterCase.cs" />
     <Compile Include="Models\FieldModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserSetup.cs" />

@@ -88,6 +88,15 @@ namespace TestDataGenerator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Új mező.
+        /// </summary>
+        public static string Button_Caption_NewField {
+            get {
+                return ResourceManager.GetString("Button_Caption_NewField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Regisztrálok.
         /// </summary>
         public static string Button_Caption_Register {
@@ -120,6 +129,15 @@ namespace TestDataGenerator.Resources {
         public static string Button_Caption_Setup_Save {
             get {
                 return ResourceManager.GetString("Button_Caption_Setup_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Válasszon.
+        /// </summary>
+        public static string Dropdown_FieldTypeDefault {
+            get {
+                return ResourceManager.GetString("Dropdown_FieldTypeDefault", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
 ﻿@using TestDataGenerator.Resources
+@using TestDataGenerator.Web.Helpers
 @model TestDataGenerator.Web.Models.SetupCreateViewModel
 
 @{
@@ -8,25 +9,40 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            Ide jön majd a felvételi lista
+            @Html.LabelFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name, new { data_bind = "value: name"})
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@Messages.Button_Caption_Setup_Create" class="btn btn-primary" />
+            @Html.LabelFor(model => model.Fields)
+            <div id="question-list" data-bind="foreach: { data: fields, as: 'field' }">
+                @Html.Partial("_Field")
             </div>
+        </div>
+
+        <button data-bind="click: addField" class="btn btn-primary">@Messages.Button_Caption_NewField</button>
+
+        <div class="form-group tdg-toolbar">
+            @Html.ActionLink(Messages.Link_Caption_Back, "List", "Setup", null, new { @class = "btn btn-default" })
+            @Html.ActionLink(Messages.Button_Caption_Setup_Create, "Create", "Setup", null, new { @class = "btn btn-primary" })
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink(Messages.Link_Caption_Back, "Index", "Home")
-</div>
+<pre id="debug" data-bind="text: displayModelAsJSON()"></pre>
+
+@section scripts {
+    <script>
+        var fieldTypeInfos = @Html.RawJsonModel((object)ViewBag.FieldTypeInfos) || [];
+    </script>
+
+    <script src="~/Scripts/app/setup/create.js"></script>
+}

@@ -9,7 +9,8 @@
 <div id="setupGrid"></div>
 
 <div>
-    @Html.ActionLink(Messages.Link_Caption_Back, "Index", "Home")
+    @Html.ActionLink(Messages.Link_Caption_Back, "Index", "Home", null, new { @class = "btn btn-default" })
+    @Html.ActionLink(Messages.Link_Caption_Setup_Create, "Create", "Setup", null, new { @class = "btn btn-primary" })
 </div>
 
 @section scripts {

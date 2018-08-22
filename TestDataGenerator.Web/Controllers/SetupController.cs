@@ -1,10 +1,15 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
+using TestDataGenerator.Common;
+using TestDataGenerator.Data;
+using TestDataGenerator.Data.Enums;
 using TestDataGenerator.Data.Models;
 using TestDataGenerator.Services;
+using TestDataGenerator.Services.Models;
 using TestDataGenerator.Web.Models;
 
 namespace TestDataGenerator.Web.Controllers
@@ -31,7 +36,7 @@ namespace TestDataGenerator.Web.Controllers
                     Id = 1,
                     Name = "Signal Partner",
                     CreateDate = new DateTime(2018, 8, 1),
-                    Fields = new List<IFieldModel>()
+                    Fields = new List<FieldModel>()
                 });
 
                 _setupService.AddOrUpdateSetup(new UserSetup()
@@ -39,7 +44,7 @@ namespace TestDataGenerator.Web.Controllers
                     Id = 2,
                     Name = "Signal Commission",
                     CreateDate = new DateTime(2016, 5, 31),
-                    Fields = new List<IFieldModel>()
+                    Fields = new List<FieldModel>()
                 });
 
                 _setupService.AddOrUpdateSetup(new UserSetup()
@@ -47,7 +52,7 @@ namespace TestDataGenerator.Web.Controllers
                     Id = 3,
                     Name = "Microsite",
                     CreateDate = new DateTime(2017, 9, 15),
-                    Fields = new List<IFieldModel>()
+                    Fields = new List<FieldModel>()
                 });
             }
         }
@@ -78,7 +83,24 @@ namespace TestDataGenerator.Web.Controllers
         {
             var model = new SetupCreateViewModel();
 
+            ViewBag.FieldTypeInfos = GetFieldTypeInfos();
+
             return View(model);
+        }
+
+        private List<FieldTypeInfo> GetFieldTypeInfos()
+        {
+            var result = ((IEnumerable<FieldType>)Enum.GetValues(typeof(FieldType)))
+                .Select(e => new FieldTypeInfo()
+                {
+                    Value = (int)e,
+                    Name = e.ToString(),
+                    Description = e.GetAttributeOfType<DescriptionAttribute>()?.Description ?? "",
+                    HasMinValue = e.GetAttributeOfType<HasExtremeAttribute>()?.HasMinValue ?? false,
+                    HasMaxValue = e.GetAttributeOfType<HasExtremeAttribute>()?.HasMaxValue ?? false
+                }).ToList();
+
+            return result;
         }
 
 #warning Implementálni kell

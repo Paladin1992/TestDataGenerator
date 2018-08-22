@@ -19,6 +19,9 @@ namespace TestDataGenerator.Web
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
+                      "~/Scripts/knockout-3.4.2.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
                       "~/Scripts/kendo.all.min.js"));
 
