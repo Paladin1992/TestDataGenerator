@@ -45,11 +45,39 @@ function FieldViewModel(data) {
     self.id = ko.observable(data.id || 1);
     self.name = ko.observable(data.name || "");
     self.fieldType = ko.observable(data.fieldType || -1);
-    self.minValue = ko.observable(data.minValue || null);
-    self.maxValue = ko.observable(data.maxValue || null);
+
+    self.minValue = ko.observable(data.minValue || null); // + minDate, minLength
+    self.maxValue = ko.observable(data.maxValue || null); // + maxDate, maxLength
+
+    self.isMale = ko.observable(data.isMale || false);
+
+    self.letterCase = ko.observable(data.letterCase || 0);
+    self.mustContainSpace = ko.observable(data.mustContainSpace || false);
+    self.mustContainDigit = ko.observable(data.mustContainDigit || false);
+    self.mustContainAccutes = ko.observable(data.mustContainAccutes || false);
+    self.mustContainCustom = ko.observableArray(data.mustContainCustom || []);
+
+    self.desiredLength = ko.observable(data.desiredLength || 0);
+
+    self.separateWithHyphens = ko.observable(data.separateWithHyphens || false);
+
+    self.fixItems = ko.observableArray(data.fixItems || []);
+
+    // legyen egy függvény, ami POST-olás előtt a kiválasztott fieldType alapján
+    // delete -tel kiszedi az egyes mezőknél a felesleges értékpárokat
+    // VAGY
+    // legyen egy fieldSpecific mező, ami a fieldType állításakor mindig más és más alobjektumot kap értékül
 
     // events
-    //self.typeChanged = function() {
-    //    console.log("type changed");
-    //};
+    self.fieldTypeChanged = function(e) {
+        console.log(e);
+
+        switch (self.fieldType) {
+            case 1: // kigeneráltatni egy View-ba az enum elemeit, mint ahogy a Signal projektben van
+                break;
+            case 2:
+                break;
+            // :
+        }
+    };
 }

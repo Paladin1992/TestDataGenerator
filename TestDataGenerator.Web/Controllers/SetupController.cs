@@ -18,13 +18,20 @@ namespace TestDataGenerator.Web.Controllers
     {
         private readonly IDataService _dataService;
 
+        private readonly DataGeneratorService _dataGeneratorService;
+
         private readonly ISetupService _setupService;
 
         private readonly IMapper _mapper;
 
-        public SetupController(IDataService dataService, ISetupService setupService, IMapper mapper)
+        public SetupController(
+            IDataService dataService,
+            DataGeneratorService dataGeneratorService,
+            ISetupService setupService,
+            IMapper mapper)
         {
             _dataService = dataService;
+            _dataGeneratorService = dataGeneratorService;
             _setupService = setupService;
             _mapper = mapper;
 
@@ -101,6 +108,95 @@ namespace TestDataGenerator.Web.Controllers
                 }).ToList();
 
             return result;
+        }
+
+        // DEBUG ONLY
+        private string TestData(int count, List<FieldModel> fields)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                for (int fieldIndex = 0; fieldIndex < fields.Count; fieldIndex++)
+                {
+                    var field = fields[fieldIndex];
+
+                    if (field is FirstNameFieldModel)
+                    {
+                        _dataGeneratorService.GenerateFirstName(field as FirstNameFieldModel);
+                    }
+                    else if (field is LastNameFieldModel)
+                    {
+                        _dataGeneratorService.GenerateLastName(field as LastNameFieldModel);
+                    }
+                    else if (field is DateTimeFieldModel)
+                    {
+                        _dataGeneratorService.GenerateDateTime(field as DateTimeFieldModel);
+                    }
+                    else if (field is EmailFieldModel)
+                    {
+                        _dataGeneratorService.GenerateEmail(field as EmailFieldModel);
+                    }
+                    else if (field is TextFieldModel)
+                    {
+                        _dataGeneratorService.GenerateText(field as TextFieldModel);
+                    }
+                    else if (field is Int32FieldModel)
+                    {
+                        _dataGeneratorService.GenerateSignedInteger(field as Int32FieldModel);
+                    }
+                    else if (field is UInt32FieldModel)
+                    {
+                        _dataGeneratorService.GenerateUnsignedInteger(field as UInt32FieldModel);
+                    }
+                    else if (field is Int64FieldModel)
+                    {
+                        _dataGeneratorService.GenerateSignedLongInteger(field as Int64FieldModel);
+                    }
+                    else if (field is UInt64FieldModel)
+                    {
+                        _dataGeneratorService.GenerateUnsignedLongInteger(field as UInt64FieldModel);
+                    }
+                    else if (field is FloatFieldModel)
+                    {
+                        _dataGeneratorService.GenerateFloat(field as FloatFieldModel);
+                    }
+                    else if (field is DoubleFieldModel)
+                    {
+                        _dataGeneratorService.GenerateDouble(field as DoubleFieldModel);
+                    }
+                    else if (field is HashFieldModel)
+                    {
+                        _dataGeneratorService.GenerateUnsignedLongInteger(field as UInt64FieldModel);
+                    }
+                    else if (field is GuidFieldModel)
+                    {
+                        _dataGeneratorService.GenerateGuid(field as GuidFieldModel);
+                    }
+                    else if (field is CustomSetFieldModel)
+                    {
+                        _dataGeneratorService.GenerateFromCustomSet(field as CustomSetFieldModel);
+                    }
+                }
+
+                _dataGeneratorService.GenerateDateTime(new DateTimeFieldModel("", new DateTime(1950, 1, 1), new DateTime(2050, 12, 31)));
+            }
+
+            return null;
+        }
+
+        public class TypeSwitch
+        {
+            Dictionary<Type, Action<object>> matches = new Dictionary<Type, Action<object>>();
+
+            public TypeSwitch Case<T>(Action<T> action)
+            {
+                matches.Add(typeof(T), (x) => action((T)x));
+                return this;
+            }
+
+            public void Switch(object x)
+            {
+                matches[x.GetType()](x);
+            }
         }
 
 #warning Implementálni kell

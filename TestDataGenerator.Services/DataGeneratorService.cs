@@ -8,38 +8,39 @@ using TestDataGenerator.Data.Models;
 
 namespace TestDataGenerator.Services
 {
-    public interface IDataGeneratorService
-    {
-        string GenerateLastName(LastNameFieldModel model);
+    //public interface IDataGeneratorService
+    //{
+    //    string GenerateLastName(LastNameFieldModel model);
 
-        string GenerateFirstName(FirstNameFieldModel model);
+    //    string GenerateFirstName(FirstNameFieldModel model);
 
-        DateTime GenerateDateTime(DateTimeFieldModel model);
+    //    DateTime GenerateDateTime(DateTimeFieldModel model);
 
-        string GenerateEmail(EmailFieldModel model);
+    //    string GenerateEmail(EmailFieldModel model);
 
-        string GenerateText(TextFieldModel model);
+    //    string GenerateText(TextFieldModel model);
 
-        int GenerateSignedInteger(IntegerFieldModel<int> model);
+    //    int GenerateSignedInteger(Int32FieldModel model);
 
-        uint GenerateUnsignedInteger(IntegerFieldModel<uint> model);
+    //    uint GenerateUnsignedInteger(UInt32FieldModel model);
 
-        long GenerateSignedLongInteger(LongIntegerFieldModel<long> model);
+    //    long GenerateSignedLongInteger(Int64FieldModel model);
 
-        ulong GenerateUnsignedLongInteger(LongIntegerFieldModel<ulong> model);
+    //    ulong GenerateUnsignedLongInteger(UInt64FieldModel model);
 
-        float GenerateFloat(FloatFieldModel model);
+    //    float GenerateFloat(FloatFieldModel model);
 
-        double GenerateDouble(DoubleFieldModel model);
+    //    double GenerateDouble(DoubleFieldModel model);
 
-        string GenerateHash(HashFieldModel model);
+    //    string GenerateHash(HashFieldModel model);
 
-        string GenerateGuid(GuidFieldModel model);
+    //    string GenerateGuid(GuidFieldModel model);
 
-        string GenerateFromCustomSet(CustomSetFieldModel model);
-    }
+    //    string GenerateFromCustomSet(CustomSetFieldModel model);
+    //}
 
-    public class DataGeneratorService : IDataGeneratorService
+
+    public class DataGeneratorService
     {
         private readonly Random _random = new Random();
 
@@ -52,26 +53,19 @@ namespace TestDataGenerator.Services
 
         public DataGeneratorService()
         {
-            _maleFirstNames = File.ReadAllLines("firstnames_hun_male.txt").ToList();
-            _femaleFirstNames = File.ReadAllLines("firstnames_hun_female.txt").ToList();
-            _lastNames = File.ReadAllLines("lastnames_hun.txt").ToList();
+            _maleFirstNames = File.ReadAllLines(System.Web.Hosting.HostingEnvironment.MapPath("~/datasource/firstnames_hun_male.txt")).ToList();
+            _femaleFirstNames = File.ReadAllLines(System.Web.Hosting.HostingEnvironment.MapPath("~/datasource/firstnames_hun_female.txt")).ToList();
+            _lastNames = File.ReadAllLines(System.Web.Hosting.HostingEnvironment.MapPath("~/datasource/lastnames_hun.txt")).ToList();
         }
 
         public string GenerateLastName(LastNameFieldModel model)
         {
-            return _lastNames[_random.Next(0, _lastNames.Count)];
+            return GetRandomItemFrom(_lastNames);
         }
 
         public string GenerateFirstName(FirstNameFieldModel model)
         {
-            if (model.IsMale)
-            {
-                return _maleFirstNames[_random.Next(0, _maleFirstNames.Count)];
-            }
-            else
-            {
-                return _femaleFirstNames[_random.Next(0, _femaleFirstNames.Count)];
-            }
+            return GetRandomItemFrom(model.IsMale ? _maleFirstNames : _femaleFirstNames);
         }
 
         public DateTime GenerateDateTime(DateTimeFieldModel model)
@@ -92,7 +86,12 @@ namespace TestDataGenerator.Services
 
         public string GenerateEmail(EmailFieldModel model)
         {
-            throw new NotImplementedException();
+            // \w{5,10}@\w{3,6}.(hu|com)
+            var beforeAtSign = CreateString(_random.Next(5, 11), LetterCase.LowerCaseOnly, includeLetters: true);
+            var afterAtSign = CreateString(_random.Next(3, 7), LetterCase.LowerCaseOnly, includeLetters: true);
+            var domain = GetRandomItemFrom(new string[] { "hu", "com", "de", "en" });
+
+            return $"{beforeAtSign}@{afterAtSign}.{domain}";
         }
 
         public string GenerateText(TextFieldModel model)
@@ -115,29 +114,44 @@ namespace TestDataGenerator.Services
             return sb.ToString();
         }
 
-        public int GenerateSignedInteger(IntegerFieldModel<int> model)
+        public int GenerateSignedInteger(Int32FieldModel model)
         {
-            throw new NotImplementedException();
+            var min = Math.Min(model.MinValue, model.MaxValue);
+            var max = Math.Max(model.MinValue, model.MaxValue);
+
+            return _random.Next(min, max + 1);
         }
 
-        public uint GenerateUnsignedInteger(IntegerFieldModel<uint> model)
+        public uint GenerateUnsignedInteger(UInt32FieldModel model)
         {
-            throw new NotImplementedException();
+            var min = Math.Min(model.MinValue, model.MaxValue);
+            var max = Math.Max(model.MinValue, model.MaxValue);
+
+            return (uint)(min + _random.NextDouble() * (max - min + 1));
         }
 
-        public long GenerateSignedLongInteger(LongIntegerFieldModel<long> model)
+        public long GenerateSignedLongInteger(Int64FieldModel model)
         {
-            throw new NotImplementedException();
+            var min = Math.Min(model.MinValue, model.MaxValue);
+            var max = Math.Max(model.MinValue, model.MaxValue);
+
+            return (long)(min + _random.NextDouble() * (max - min + 1));
         }
 
-        public ulong GenerateUnsignedLongInteger(LongIntegerFieldModel<ulong> model)
+        public ulong GenerateUnsignedLongInteger(UInt64FieldModel model)
         {
-            throw new NotImplementedException();
+            var min = Math.Min(model.MinValue, model.MaxValue);
+            var max = Math.Max(model.MinValue, model.MaxValue);
+
+            return (ulong)(min + _random.NextDouble() * (max - min + 1));
         }
 
         public float GenerateFloat(FloatFieldModel model)
         {
-            return (float)(model.MinValue + _random.NextDouble() * (model.MaxValue - model.MinValue + 1));
+            var min = Math.Min(model.MinValue, model.MaxValue);
+            var max = Math.Max(model.MinValue, model.MaxValue);
+
+            return (float)(min + _random.NextDouble() * (max - min + 1));
         }
 
         public double GenerateDouble(DoubleFieldModel model)
@@ -172,19 +186,31 @@ namespace TestDataGenerator.Services
 
         public string GenerateFromCustomSet(CustomSetFieldModel model)
         {
-            if (model.Values.Count == 0)
+            if (model.Items.Count == 0)
             {
                 return string.Empty;
             }
 
-            return model.Values[_random.Next(0, model.Values.Count)];
+            return GetRandomItemFrom(model.Items);
         }
 
 
         #region [ Helpers ]
 
+        private T GetRandomItemFrom<T>(IReadOnlyList<T> items)
+        {
+            if (items.Count == 0)
+            {
+                throw new IndexOutOfRangeException(
+                    "It is not possible to return a random item from an empty collection. "
+                    + "Ensure that the collection contains at least one item.");
+            }
+
+            return items[_random.Next(items.Count)];
+        }
+
         private char GetRandomChar(
-            LetterCase letterCase,
+            LetterCase letterCase = LetterCase.Ignore,
             bool includeLetters = false,
             bool includeSpace = false,
             bool includeDigits = false,
@@ -226,7 +252,7 @@ namespace TestDataGenerator.Services
 
             choosable = choosable.Distinct().ToList();
 
-            var c = choosable[_random.Next(0, choosable.Count)];
+            var c = GetRandomItemFrom(choosable);
 
             switch (letterCase)
             {
@@ -237,6 +263,32 @@ namespace TestDataGenerator.Services
             }
         }
 
+        private string CreateString(
+            int desiredLength,
+            LetterCase letterCase = LetterCase.Ignore,
+            bool includeLetters = false,
+            bool includeSpace = false,
+            bool includeDigits = false,
+            bool includeAccutes = false,
+            List<char> includeCustom = null)
+        {
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < desiredLength; i++)
+            {
+                var c = GetRandomChar(
+                    letterCase,
+                    includeLetters,
+                    includeSpace,
+                    includeDigits,
+                    includeAccutes,
+                    includeCustom);
+
+                sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
         #endregion
     }
 }

@@ -15,7 +15,7 @@
 
     <div class="tdg-field type">
         <span>Típus:</span>
-        <select data-bind="attr: { id: 'select-'+($parent.fields.length+1) }, value: field.fieldType">
+        <select data-bind="attr: { id: 'select-'+($parent.fields.length+1) }, value: field.fieldType, event: {'change': fieldTypeChanged}">
             @foreach (var item in fieldTypeInfos)
             {
                 <option value="@item.Value" @(item.Value == 0 ? " selected disabled" : null)>@item.Description</option>
