@@ -201,6 +201,7 @@
     <Compile Include="Models\Setup\ListItemUserSetupViewModel.cs" />
     <Compile Include="Models\Setup\SetupCreateViewModel.cs" />
     <Compile Include="Models\Setup\SetupEditViewModel.cs" />
+    <Compile Include="Models\Setup\TemporarySetupViewModel.cs" />
     <Compile Include="Models\Setup\UserSetupViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -346,6 +347,7 @@
     <Content Include="Views\EmailTemplates\_EmailLayout.html" />
     <Content Include="Views\Setup\List.cshtml" />
     <Content Include="Views\Setup\_Field.cshtml" />
+    <Content Include="Views\Shared\_JSEnumsAndConstants.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

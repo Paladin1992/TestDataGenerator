@@ -16,6 +16,10 @@
         </footer>
     </div>
 
+    <!-- JS enums and constants -->
+    @Html.Partial("_JsEnumsAndConstants")
+    <!-- END of JS enums and constants -->
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/knockout")
     @Scripts.Render("~/bundles/kendo")
@@ -33,6 +37,69 @@
             }
 
             return null;
+        }
+
+        function fillArray(from, to) {
+            var from = Math.min(from, to);
+            var to = Math.max(from, to);
+            var result = [];
+
+            for (var i = from; i <= to; i++) {
+                result.push(i);
+            }
+
+            return result;
+        }
+
+        function isLeapYear(year) {
+            return year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0);
+        }
+
+        function getDaysInMonth(year, month) {
+            switch (month) {
+                case 2: return isLeapYear(year) ? 29 : 28;
+
+                case 4:
+                case 6:
+                case 9:
+                case 11: return 30;
+
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12: return 31;
+
+                default: return 0;
+            }
+        }
+
+        function getMinValue(fieldType, signed) {
+            switch (fieldType) {
+                case fieldType.byte: return (signed ? constants.sbyte.minValue : constants.byte.minValue);
+                case fieldType.int16: return (signed ? constants.int16.minValue : constants.uint16.minValue);
+                case fieldType.int32: return (signed ? constants.int32.minValue : constants.uint32.minValue);
+                case fieldType.int64: return (signed ? constants.int64.minValue : constants.uint64.minValue);
+                case fieldType.single: return constants.single.minValue;
+                case fieldType.double: return constants.double.minValue;
+                case fieldType.decimal: return constants.decimal.minValue;
+                default: return 0;
+            }
+        }
+
+        function getMaxValue(fieldType, signed) {
+            switch (fieldType) {
+                case fieldType.byte: return (signed ? constants.sbyte.maxValue : constants.byte.maxValue);
+                case fieldType.int16: return (signed ? constants.int16.maxValue : constants.uint16.maxValue);
+                case fieldType.int32: return (signed ? constants.int32.maxValue : constants.uint32.maxValue);
+                case fieldType.int64: return (signed ? constants.int64.maxValue : constants.uint64.maxValue);
+                case fieldType.single: return constants.single.maxValue;
+                case fieldType.double: return constants.double.maxValue;
+                case fieldType.decimal: return constants.decimal.maxValue;
+                default: return 0;
+            }
         }
     </script>
     @RenderSection("scripts", required: false)

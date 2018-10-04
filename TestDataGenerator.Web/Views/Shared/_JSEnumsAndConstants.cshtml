@@ -1,0 +1,23 @@
+﻿@using TestDataGenerator.Data.Enums
+@using TestDataGenerator.Common
+@using TestDataGenerator.Web.Helpers
+
+@{
+    var enums = new List<string>();
+
+    enums.Add(MvcHelpers.EnumDictionaryToJS("fieldType", ExtensionMethods.EnumToList<FieldType>(true)));
+    enums.Add(MvcHelpers.EnumDictionaryToJS("gender", ExtensionMethods.EnumToList<Gender>(true)));
+    enums.Add(MvcHelpers.EnumDictionaryToJS("letterCase", ExtensionMethods.EnumToList<LetterCase>(true)));
+
+    var numberTypeExtremes = MvcHelpers.GetNumberTypeExtremes(true);
+}
+
+<script>
+    function getConstants() {
+        return {
+            @Html.Raw(numberTypeExtremes)
+
+            @Html.Raw(string.Join(",\r\n\r\n", enums))
+        };
+    }
+</script>

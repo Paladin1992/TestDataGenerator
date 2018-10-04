@@ -1,4 +1,6 @@
-﻿@using TestDataGenerator.Resources
+﻿@using TestDataGenerator.Common
+@using TestDataGenerator.Data.Enums
+@using TestDataGenerator.Resources
 @using TestDataGenerator.Services.Models
 @using TestDataGenerator.Web.Models
 @model SetupCreateViewModel
@@ -15,7 +17,7 @@
 
     <div class="tdg-field type">
         <span>Típus:</span>
-        <select data-bind="attr: { id: 'select-'+($parent.fields.length+1) }, value: field.fieldType, event: {'change': fieldTypeChanged}">
+        <select data-bind="attr: { id: 'select-'+($parent.fields.length+1) }, value: field.fieldType, event: {'change': field.fieldTypeChanged}">
             @foreach (var item in fieldTypeInfos)
             {
                 <option value="@item.Value" @(item.Value == 0 ? " selected disabled" : null)>@item.Description</option>
@@ -23,18 +25,153 @@
         </select>
     </div>
 
-    <div class="tdg-field min">
-        <span>Min:</span>
-        <div data-bind="enable: field.hasMinValue">
+    <div class="tdg-field specific" data-bind="template: { name: templateToUse }">
 
-        </div>
     </div>
-
-    <div class="tdg-field max">
-        <span>Max:</span>
-        <div data-bind="enable: field.hasMaxValue">
-
-        </div>
-    </div>
-
 </div>
+
+
+<script type="text/html" id="none-template">
+</script>
+
+<script type="text/html" id="lastName-template">
+    <!-- nothing to put here -->
+</script>
+
+<script type="text/html" id="firstName-template">
+    @{
+        List<KeyValuePair<string, int>> enumAsList = ExtensionMethods.EnumWithDescriptionToList<Gender>();
+        var genderListItems = new List<SelectListItem>();
+
+        for (int i = 0; i < enumAsList.Count; i++)
+        {
+            genderListItems.Add(new SelectListItem()
+            {
+                Text = enumAsList[i].Key,
+                Value = enumAsList[i].Value.ToString(),
+                Selected = (i == 0),
+                Disabled = (i == 0)
+            });
+        }
+    }
+    @Html.DropDownList("firstNameGender", genderListItems, null, new
+    {
+        @class = "",
+        data_bind = "value: field.firstNameFieldModel().gender"
+    })
+</script>
+
+<script type="text/html" id="dateTime-template">
+
+    <!-- minDate -->
+    <input type="text" data-bind="
+           attr: { id: 'minDateYear-' + field.id() },
+           value: field.dateTimeFieldModel().minDate().year">
+
+    <select data-bind="
+            attr: { id: 'minDateMonth-' + field.id() },
+            foreach: { data: fillArray(1, 12), as: 'month' },
+            event: { 'change': function(data, event) { field.dateTimeFieldModel().dateChanged(data, event, field.id(), true, true); } }">
+        <option data-bind="
+                value: field.dateTimeFieldModel().minDate().month,
+                text: month"></option>
+    </select>
+
+    <select data-bind="
+            attr: { id: 'minDateDay-' + field.id() },
+            foreach: { data: fillArray(1, field.dateTimeFieldModel().minDate().daysInMonth()), as: 'day' }">
+        <option data-bind="
+                value: field.dateTimeFieldModel().minDate().day,
+                text: day"></option>
+    </select>
+    <!-- END of minDate -->
+
+    <!-- maxDate -->
+    <input type="text" data-bind="
+           attr: { id: 'maxDateYear-' + field.id() },
+           value: field.dateTimeFieldModel().maxDate().year">
+
+    <select data-bind="
+            attr: { id: 'maxDateMonth-' + field.id() },
+            foreach: { data: fillArray(1, 12), as: 'month' },
+            event: { 'change': function(data, event) { field.dateTimeFieldModel().dateChanged(data, event, field.id(), false, true); } }">
+        <option data-bind="
+                value: field.dateTimeFieldModel().maxDate().month,
+                text: month"></option>
+    </select>
+
+    <select data-bind="
+            attr: { id: 'maxDateDay-' + field.id() },
+            foreach: { data: fillArray(1, field.dateTimeFieldModel().maxDate().daysInMonth()), as: 'day' }">
+        <option data-bind="
+                value: field.dateTimeFieldModel().maxDate().day,
+                text: day"></option>
+    </select>
+    <!-- END of maxDate -->
+
+</script>
+
+<script type="text/html" id="email-template">
+    <!-- nothing to put here -->
+</script>
+
+@* TODO *@
+<script type="text/html" id="text-template">
+    text
+</script>
+
+<script type="text/html" id="byte-template">
+    @*<input type="number"
+        data-bind="attr: { min: getMinValue(getConstants().byte, field.subtype().isSigned()), max: getMaxValue(getConstants().byte, field.subtype().isSigned()) }">*@
+    <input type="number" min="0" max="255">
+</script>
+
+@* TODO *@
+<script type="text/html" id="short-template">
+    short
+</script>
+
+@* TODO *@
+<script type="text/html" id="integer-template">
+    integer
+</script>
+
+@* TODO *@
+<script type="text/html" id="longInteger-template">
+    longInteger
+</script>
+
+@* TODO *@
+<script type="text/html" id="float-template">
+    float
+</script>
+
+@* TODO *@
+<script type="text/html" id="double-template">
+    double
+</script>
+
+@* TODO *@
+<script type="text/html" id="decimal-template">
+    decimal
+</script>
+
+<script type="text/html" id="hash-template">
+    Hossz (1-32767):
+    <input type="number" min="1" max="32767" data-bind="value: field.hashFieldModel().desiredLength">
+</script>
+
+<script type="text/html" id="guid-template">
+    <input type="checkbox" data-bind="attr: { id: 'guid-' + field.id() }, checked: field.guidFieldModel().separateWithHyphens">
+    Elválasztás kötőjelekkel
+</script>
+
+<script type="text/html" id="base64-template">
+    Hossz (1-32767):
+    <input type="number" min="1" max="32767" data-bind="value: field.base64FieldModel().desiredLength">
+</script>
+
+@* TODO *@
+<script type="text/html" id="customSet-template">
+    customSet
+</script>
