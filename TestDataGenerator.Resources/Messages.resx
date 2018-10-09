@@ -228,6 +228,9 @@
   <data name="Title_SetupList" xml:space="preserve">
     <value>Beállítások áttekintése</value>
   </data>
+  <data name="Warn_Confirm_RemoveField" xml:space="preserve">
+    <value>Biztosan törölni szeretné ezt a mezőt?</value>
+  </data>
   <data name="Warn_Pw_MinLength" xml:space="preserve">
     <value>A jelszónak legalább {0} karakter hosszúnak kell lennie.</value>
   </data>

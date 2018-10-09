@@ -1,8 +1,8 @@
 ﻿using TestDataGenerator.Data.Models;
 
-namespace TestDataGenerator.Web.Models.Setup
+namespace TestDataGenerator.Web.Models
 {
-    public class TemporarySetupViewModel : FieldModel
+    public class TemporarySetupViewModel
     {
         public LastNameFieldModel LastNameFieldModel { get; set; }
 

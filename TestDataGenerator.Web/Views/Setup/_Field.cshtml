@@ -1,6 +1,5 @@
 ﻿@using TestDataGenerator.Common
 @using TestDataGenerator.Data.Enums
-@using TestDataGenerator.Resources
 @using TestDataGenerator.Services.Models
 @using TestDataGenerator.Web.Models
 @model SetupCreateViewModel
@@ -8,26 +7,27 @@
     List<FieldTypeInfo> fieldTypeInfos = ViewBag.FieldTypeInfos;
 }
 
-<div class="tdg-field-container clearfix" style="display: none;" data-bind="visible: true">
+<div data-bind="visible: true" class="tdg-field-container clearfix" style="display: none;">
 
     <div class="tdg-field name">
         <span>Név:</span>
         <input type="text" maxlength="50" data-bind="value: name">
-    </div>
 
-    <div class="tdg-field type">
         <span>Típus:</span>
-        <select data-bind="attr: { id: 'select-'+($parent.fields.length+1) }, value: field.fieldType, event: {'change': field.fieldTypeChanged}">
+        <select data-bind="
+                attr: { id: 'select-' + ($parent.fields.length + 1) },
+                value: field.fieldType,
+                event: {'change': field.fieldTypeChanged }">
             @foreach (var item in fieldTypeInfos)
             {
                 <option value="@item.Value" @(item.Value == 0 ? " selected disabled" : null)>@item.Description</option>
             }
         </select>
+
+        <button data-bind="click: function() { $parent.removeField(field); }" class="tdg-field remove-button">&times;</button>
     </div>
 
-    <div class="tdg-field specific" data-bind="template: { name: templateToUse }">
-
-    </div>
+    <div data-bind="template: { name: templateToUse }" class="tdg-field specific"></div>
 </div>
 
 
@@ -54,6 +54,8 @@
             });
         }
     }
+
+    Nem:
     @Html.DropDownList("firstNameGender", genderListItems, null, new
     {
         @class = "",
@@ -64,49 +66,70 @@
 <script type="text/html" id="dateTime-template">
 
     <!-- minDate -->
-    <input type="text" data-bind="
-           attr: { id: 'minDateYear-' + field.id() },
-           value: field.dateTimeFieldModel().minDate().year">
+    <div>
+        Legkisebb dátum/idő:
+        <input type="text" data-bind="
+               attr: { id: 'minDateYear-' + field.id() },
+               value: field.dateTimeFieldModel().minDate().year">
 
-    <select data-bind="
-            attr: { id: 'minDateMonth-' + field.id() },
-            foreach: { data: fillArray(1, 12), as: 'month' },
-            event: { 'change': function(data, event) { field.dateTimeFieldModel().dateChanged(data, event, field.id(), true, true); } }">
-        <option data-bind="
-                value: field.dateTimeFieldModel().minDate().month,
-                text: month"></option>
-    </select>
+        <select data-bind="
+                attr: { id: 'minDateMonth-' + field.id() },
+                options: fillArray(1, 12),
+                value: field.dateTimeFieldModel().minDate().month"></select>
 
-    <select data-bind="
-            attr: { id: 'minDateDay-' + field.id() },
-            foreach: { data: fillArray(1, field.dateTimeFieldModel().minDate().daysInMonth()), as: 'day' }">
-        <option data-bind="
-                value: field.dateTimeFieldModel().minDate().day,
-                text: day"></option>
-    </select>
-    <!-- END of minDate -->
+        <select data-bind="
+                attr: { id: 'minDateDay-' + field.id() },
+                options: field.dateTimeFieldModel().minDate().dayList(),
+                value: field.dateTimeFieldModel().minDate().day"></select>
 
+        <select data-bind="
+                attr: { id: 'minDateHours-' + field.id() },
+                options: fillArray(0, 23),
+                value: field.dateTimeFieldModel().minDate().hours"></select>
+
+        <select data-bind="
+                attr: { id: 'minDateMinutes-' + field.id() },
+                options: fillArray(0, 59),
+                value: field.dateTimeFieldModel().minDate().minutes"></select>
+
+        <select data-bind="
+                attr: { id: 'minDateSeconds-' + field.id() },
+                options: fillArray(0, 59),
+                value: field.dateTimeFieldModel().minDate().seconds"></select>
+    </div>
+    
     <!-- maxDate -->
-    <input type="text" data-bind="
-           attr: { id: 'maxDateYear-' + field.id() },
-           value: field.dateTimeFieldModel().maxDate().year">
+    <div>
+        Legnagyobb dátum/idő:
+        <input type="text" data-bind="
+               attr: { id: 'maxDateYear-' + field.id() },
+               value: field.dateTimeFieldModel().maxDate().year">
 
-    <select data-bind="
-            attr: { id: 'maxDateMonth-' + field.id() },
-            foreach: { data: fillArray(1, 12), as: 'month' },
-            event: { 'change': function(data, event) { field.dateTimeFieldModel().dateChanged(data, event, field.id(), false, true); } }">
-        <option data-bind="
-                value: field.dateTimeFieldModel().maxDate().month,
-                text: month"></option>
-    </select>
+        <select data-bind="
+                attr: { id: 'maxDateMonth-' + field.id() },
+                options: fillArray(1, 12),
+                value: field.dateTimeFieldModel().maxDate().month"></select>
 
-    <select data-bind="
-            attr: { id: 'maxDateDay-' + field.id() },
-            foreach: { data: fillArray(1, field.dateTimeFieldModel().maxDate().daysInMonth()), as: 'day' }">
-        <option data-bind="
-                value: field.dateTimeFieldModel().maxDate().day,
-                text: day"></option>
-    </select>
+        <select data-bind="
+                attr: { id: 'maxDateDay-' + field.id() },
+                options: field.dateTimeFieldModel().minDate().dayList(),
+                value: field.dateTimeFieldModel().maxDate().day"></select>
+
+        <select data-bind="
+                attr: { id: 'maxDateHours-' + field.id() },
+                options: fillArray(0, 23),
+                value: field.dateTimeFieldModel().maxDate().hours"></select>
+
+        <select data-bind="
+                attr: { id: 'maxDateMinutes-' + field.id() },
+                options: fillArray(0, 59),
+                value: field.dateTimeFieldModel().maxDate().minutes"></select>
+
+        <select data-bind="
+                attr: { id: 'maxDateSeconds-' + field.id() },
+                options: fillArray(0, 59),
+                value: field.dateTimeFieldModel().maxDate().seconds"></select>
+    </div>
     <!-- END of maxDate -->
 
 </script>
@@ -121,28 +144,127 @@
 </script>
 
 <script type="text/html" id="byte-template">
-    @*<input type="number"
-        data-bind="attr: { min: getMinValue(getConstants().byte, field.subtype().isSigned()), max: getMaxValue(getConstants().byte, field.subtype().isSigned()) }">*@
-    <input type="number" min="0" max="255">
+    <input type="number"
+           data-bind="
+           attr: {
+                id: 'byteMinValue-' + field.id(),
+                min: getMinValue(getConstants().fieldType.byte, field.byteFieldModel().isSigned()),
+                max: getMaxValue(getConstants().fieldType.byte, field.byteFieldModel().isSigned())
+           },
+           value: field.byteFieldModel().minValue">
+
+    <input type="number"
+           data-bind="
+           attr: {
+                id: 'byteMaxValue-' + field.id(),
+                min: getMinValue(getConstants().fieldType.byte, field.byteFieldModel().isSigned()),
+                max: getMaxValue(getConstants().fieldType.byte, field.byteFieldModel().isSigned())
+           },
+           value: field.byteFieldModel().maxValue">
+
+    <input type="checkbox"
+           data-bind="
+           checked: field.byteFieldModel().isSigned,
+           event: {
+                'change': function(data, event) {
+                    clampNumericValueToRange('byte', field.id());
+                }
+           }">
+    Előjeles
+</script>
+
+<script type="text/html" id="int16-template">
+    <input type="number"
+           data-bind="
+           attr: {
+                id: 'int16MinValue-' + field.id(),
+                min: getMinValue(getConstants().fieldType.int16, field.int16FieldModel().isSigned()),
+                max: getMaxValue(getConstants().fieldType.int16, field.int16FieldModel().isSigned())
+           },
+           value: field.int16FieldModel().minValue">
+
+    <input type="number"
+           data-bind="
+           attr: {
+                id: 'int16MaxValue-' + field.id(),
+                min: getMinValue(getConstants().fieldType.int16, field.int16FieldModel().isSigned()),
+                max: getMaxValue(getConstants().fieldType.int16, field.int16FieldModel().isSigned())
+           },
+           value: field.int16FieldModel().maxValue">
+
+    <input type="checkbox"
+           data-bind="
+           checked: field.int16FieldModel().isSigned,
+           event: {
+                'change': function(data, event) {
+                    clampNumericValueToRange('int16', field.id());
+                }
+           }">
+    Előjeles
+</script>
+
+<script type="text/html" id="int32-template">
+    <input type="number"
+           data-bind="
+           attr: {
+                id: 'int32MinValue-' + field.id(),
+                min: getMinValue(getConstants().fieldType.int32, field.int32FieldModel().isSigned()),
+                max: getMaxValue(getConstants().fieldType.int32, field.int32FieldModel().isSigned())
+           },
+           value: field.int32FieldModel().minValue">
+
+    <input type="number"
+           data-bind="
+           attr: {
+                id: 'int32MaxValue-' + field.id(),
+                min: getMinValue(getConstants().fieldType.int32, field.int32FieldModel().isSigned()),
+                max: getMaxValue(getConstants().fieldType.int32, field.int32FieldModel().isSigned())
+           },
+           value: field.int32FieldModel().maxValue">
+
+    <input type="checkbox"
+           data-bind="
+           checked: field.int32FieldModel().isSigned,
+           event: {
+                'change': function(data, event) {
+                    clampNumericValueToRange('int32', field.id());
+                }
+           }">
+    Előjeles
+</script>
+
+<script type="text/html" id="int64-template">
+    <input type="number"
+           data-bind="
+           attr: {
+                id: 'int64MinValue-' + field.id(),
+                min: getMinValue(getConstants().fieldType.int64, field.int64FieldModel().isSigned()),
+                max: getMaxValue(getConstants().fieldType.int64, field.int64FieldModel().isSigned())
+           },
+           value: field.int64FieldModel().minValue">
+
+    <input type="number"
+           data-bind="
+           attr: {
+                id: 'int64MaxValue-' + field.id(),
+                min: getMinValue(getConstants().fieldType.int64, field.int64FieldModel().isSigned()),
+                max: getMaxValue(getConstants().fieldType.int64, field.int64FieldModel().isSigned())
+           },
+           value: field.int64FieldModel().maxValue">
+
+    <input type="checkbox"
+           data-bind="
+           checked: field.int64FieldModel().isSigned,
+           event: {
+                'change': function(data, event) {
+                    clampNumericValueToRange('int64', field.id());
+                }
+           }">
+    Előjeles
 </script>
 
 @* TODO *@
-<script type="text/html" id="short-template">
-    short
-</script>
-
-@* TODO *@
-<script type="text/html" id="integer-template">
-    integer
-</script>
-
-@* TODO *@
-<script type="text/html" id="longInteger-template">
-    longInteger
-</script>
-
-@* TODO *@
-<script type="text/html" id="float-template">
+<script type="text/html" id="single-template">
     float
 </script>
 

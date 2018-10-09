@@ -34,9 +34,32 @@ function SetupViewModel(data) {
         return field;
     };
 
-    // TODO
-    self.removeField = function() {
-        console.log("remove field");
+    self.removeField = function(field) {
+        if (field !== null) {
+            if (message(getConstants().messages.WARN_CONFIRM_REMOVE_FIELD, true)) {
+                self.fields.remove(field);
+            }
+        }
+
+        return field;
+    };
+
+    self.saveSetup = function() {
+        var jsonData = ko.toJSON(self);
+
+        $.ajax({
+            type: 'POST',
+            url: window.baseURL + 'Setup/Create',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: jsonData,
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(response) {
+                console.log(response);
+            }
+        });
     };
 }
 
@@ -67,69 +90,6 @@ function FieldViewModel(data) {
     self.base64FieldModel = ko.observable(data.Base64FieldModel || new Base64FieldModel());
     self.customSetFieldModel = ko.observable(data.CustomSetFieldModel || new CustomSetFieldModel());
 
-    // events
-    //self.fieldTypeChanged = function(e) {
-    //    var fieldType = getConstants().fieldType;
-    //    var selectedFieldType = parseInt(self.fieldType());
-
-    //    switch (selectedFieldType) {
-    //        //case fieldType.none:
-    //        //    self.subtype = ko.observable({});
-    //        //    break;
-    //        case fieldType.lastName:
-    //            self.subtype = ko.observable(new LastNameFieldModel());
-    //            break;
-    //        case fieldType.firstName:
-    //            self.subtype = ko.observable(new FirstNameFieldModel());
-    //            break;
-    //        case fieldType.dateTime:
-    //            self.subtype = ko.observable(new DateTimeFieldModel());
-    //            break;
-    //        case fieldType.email:
-    //            self.subtype = ko.observable(new EmailFieldModel());
-    //            break;
-    //        case fieldType.text:
-    //            self.subtype = ko.observable(new TextFieldModel());
-    //            break;
-    //        case fieldType.byte:
-    //            self.subtype = ko.observable(new ByteFieldModel());
-    //            break;
-    //        case fieldType.int16:
-    //            self.subtype = ko.observable(new Int16FieldModel());
-    //            break;
-    //        case fieldType.int32:
-    //            self.subtype = ko.observable(new Int32FieldModel());
-    //            break;
-    //        case fieldType.int64:
-    //            self.subtype = ko.observable(new Int64FieldModel());
-    //            break;
-    //        case fieldType.single:
-    //            self.subtype = ko.observable(new SingleFieldModel());
-    //            break;
-    //        case fieldType.double:
-    //            self.subtype = ko.observable(new DoubleFieldModel());
-    //            break;
-    //        case fieldType.decimal:
-    //            self.subtype = ko.observable(new DecimalFieldModel());
-    //            break;
-    //        case fieldType.hash:
-    //            self.subtype = ko.observable(new HashFieldModel());
-    //            break;
-    //        case fieldType.guid:
-    //            self.subtype = ko.observable(new GuidFieldModel());
-    //            break;
-    //        case fieldType.base64:
-    //            self.subtype = ko.observable(new Base64FieldModel());
-    //            break;
-    //        case fieldType.customSet:
-    //            self.subtype = ko.observable(new CustomSetFieldModel());
-    //            break;
-    //        default:
-    //            self.subtype = ko.observable({});
-    //            break;
-    //    }
-    //};
-
     // helpers
     self.templateToUse = function() {
         var enumItemNames = Object.keys(getConstants().fieldType);
@@ -158,81 +118,36 @@ function DateTimeFieldModel(data) {
     var self = this;
     data = data || {};
     
-    self.minDate = ko.observable(data.minDate || new CustomDate());
-    self.maxDate = ko.observable(data.maxDate || new CustomDate());
+    self.minDate = ko.observable(data.minDate || new CustomDate(1900, 1, 1, 0, 0, 0));
+    self.maxDate = ko.observable(data.maxDate || new CustomDate(2000, 12, 31, 23, 59, 59));
+    self.minValue = ko.pureComputed(function() {
+        return concatDate(self.minDate());
+    });
+    self.maxValue = ko.pureComputed(function() {
+        return concatDate(self.maxDate());
+    });
 
-    // helpers
-    self.dateChanged = function(data, event, id, isMinDate, isMonth) {
-        if (isMinDate) {
-            if (isMonth) {
-                self.minDate().daysInMonth(getDaysInMonth(self.minDate().year(), self.minDate().month()));
-            }
+    function concatDate(date) {
+        var zeroes = (value) => {
+            return value ? (value < 10 ? '0' : '') + value : '00';
+        };
 
-            self.minValue = concatDate(self.minDate());
-        } else {
-            if (isMonth) {
-                self.maxDate().daysInMonth(getDaysInMonth(self.maxDate().year(), self.maxDate().month()));
-            }
+        var result = date.year() + '.' + zeroes(date.month()) + '.' + zeroes(date.day()) + ' ' +
+            zeroes(date.hours()) + ':' + zeroes(date.minutes()) + ':' + zeroes(date.seconds());
 
-            self.maxValue = concatDate(self.maxDate());
-        }
+        return result;
+    }
+}
 
-        function concatDate(date) {
-            var zeroes = (value) => {
-                return value ? (value < 10 ? '0' : '') + value : '00';
-            };
-
-            var result = date.year() + '.' + zeroes(date.month()) + '.' + zeroes(date.day()) + ' ' +
-                zeroes(date.hours()) + ':' + zeroes(date.minutes()) + ':' + zeroes(date.seconds());
-
-            return result;
-        }
-    };
-
-    //self.dateChanged = function(data, event, id, isMinDate, isMonth) {
-    //    if (isMinDate) {
-    //        var minDate = {
-    //            year: parseInt($('#minDateYear-' + id).val()) || 1900,
-    //            month: parseInt($('#minDateMonth-' + id).val()) || 1,
-    //            day: parseInt($('#minDateDay-' + id).val()) || 1,
-    //            hours: parseInt($('#minDateHours-' + id).val()) || 0,
-    //            minutes: parseInt($('#minDateMinutes-' + id).val()) || 0,
-    //            seconds: parseInt($('#minDateSeconds-' + id).val()) || 0
-    //        };
-
-    //        if (isMonth) {
-    //            self.daysInMonth = getDaysInMonth(minDate.year, minDate.month);
-    //        }
-
-    //        self.minValue = concatDate(minDate);
-    //    } else {
-    //        var maxDate = {
-    //            year: parseInt($('#maxDateYear-' + id).val()) || 1900,
-    //            month: parseInt($('#maxDateMonth-' + id).val()) || 1,
-    //            day: parseInt($('#maxDateDay-' + id).val()) || 1,
-    //            hours: parseInt($('#maxDateHours-' + id).val()) || 0,
-    //            minutes: parseInt($('#maxDateMinutes-' + id).val()) || 0,
-    //            seconds: parseInt($('#maxDateSeconds-' + id).val()) || 0
-    //        };
-
-    //        if (isMonth) {
-    //            self.daysInMonth = getDaysInMonth(maxDate.year, maxDate.month);
-    //        }
-
-    //        self.maxValue = concatDate(maxDate);
-    //    }
-
-    //    function concatDate(date) {
-    //        var zeroes = (value) => {
-    //            return value ? (value < 10 ? '0' : '') + value : '00';
-    //        };
-
-    //        var result = date.year + '.' + zeroes(date.month) + '.' + zeroes(date.day) + ' ' +
-    //                     zeroes(date.hours) + ':' + zeroes(date.minutes) + ':' + zeroes(date.seconds);
-
-    //        return result;
-    //    }
-    //};
+function CustomDate(year, month, day, hours, minutes, seconds) {
+    return new CustomDate({
+        year: year,
+        month: month,
+        day: day,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds
+    });
 }
 
 function CustomDate(data) {
@@ -246,7 +161,14 @@ function CustomDate(data) {
     self.minutes = ko.observable(data.minutes || 0);
     self.seconds = ko.observable(data.seconds || 0);
 
-    self.daysInMonth = ko.observable(data.daysInMonth || 0);
+    self.dayList = ko.computed(function() {
+        var year = self.year();
+        var month = self.month();
+        var daysInMonth = getDaysInMonth(year, month);
+        var result = fillArray(1, daysInMonth);
+
+        return result;
+    });
 }
 
 function EmailFieldModel(data) {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using TestDataGenerator.Data.Models;
 using TestDataGenerator.Resources;
 
 namespace TestDataGenerator.Web.Models
@@ -15,10 +14,10 @@ namespace TestDataGenerator.Web.Models
         [Display(Name = "Név")]
         public string Name { get; set; }
 
-        public string Email { get; set; }
+        //public string Email { get; set; }
 
         [Display(Name = "Mezők")]
-        public List<FieldModel> Fields { get; set; } = new List<FieldModel>();
+        public List<TemporarySetupViewModel> Fields { get; set; } = new List<TemporarySetupViewModel>();
 
         public DateTime CreateDate { get; set; }
     }

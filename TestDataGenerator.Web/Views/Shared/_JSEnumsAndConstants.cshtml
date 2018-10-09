@@ -1,5 +1,6 @@
 ﻿@using TestDataGenerator.Data.Enums
 @using TestDataGenerator.Common
+@using TestDataGenerator.Resources
 @using TestDataGenerator.Web.Helpers
 
 @{
@@ -17,7 +18,11 @@
         return {
             @Html.Raw(numberTypeExtremes)
 
-            @Html.Raw(string.Join(",\r\n\r\n", enums))
+            @Html.Raw(string.Join(",\r\n\r\n", enums)),
+
+            messages: {
+                WARN_CONFIRM_REMOVE_FIELD: "@Messages.Warn_Confirm_RemoveField"
+            }
         };
     }
 </script>

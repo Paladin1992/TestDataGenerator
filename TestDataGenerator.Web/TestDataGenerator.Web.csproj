@@ -235,6 +235,7 @@
       <DependentUpon>Site.css</DependentUpon>
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\app\polyfills.js" />
     <Content Include="Scripts\app\setup\create.js" />
     <Content Include="Scripts\app\setup\list.js" />
     <Content Include="Scripts\kendo.all.min.js" />

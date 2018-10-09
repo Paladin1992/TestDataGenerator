@@ -24,9 +24,22 @@
     @Scripts.Render("~/bundles/knockout")
     @Scripts.Render("~/bundles/kendo")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/polyfills")
 
     <script>
         window.baseURL = '@Url.Content("~")';
+
+        // A custom helper alert function that is able to display HTML entities as well.
+        // If the isConfirm parameter has a truthy value, the function returns the confirm() function's return value; otherwise true is returned.
+        function message(str, isConfirm) {
+            var s = $('<div>').html(str).text();
+            if (isConfirm) {
+                return confirm(s);
+            } else {
+                alert(s);
+                return true;
+            }
+        }
 
         function fromJsonDate(date) {
             if (date && typeof date === 'string') {
@@ -77,29 +90,54 @@
         }
 
         function getMinValue(fieldType, signed) {
+            var constants = getConstants();
+            var type = constants.fieldType;
+
             switch (fieldType) {
-                case fieldType.byte: return (signed ? constants.sbyte.minValue : constants.byte.minValue);
-                case fieldType.int16: return (signed ? constants.int16.minValue : constants.uint16.minValue);
-                case fieldType.int32: return (signed ? constants.int32.minValue : constants.uint32.minValue);
-                case fieldType.int64: return (signed ? constants.int64.minValue : constants.uint64.minValue);
-                case fieldType.single: return constants.single.minValue;
-                case fieldType.double: return constants.double.minValue;
-                case fieldType.decimal: return constants.decimal.minValue;
+                case type.byte: return (signed ? constants.sbyte.minValue : constants.byte.minValue);
+                case type.int16: return (signed ? constants.int16.minValue : constants.uint16.minValue);
+                case type.int32: return (signed ? constants.int32.minValue : constants.uint32.minValue);
+                case type.int64: return (signed ? constants.int64.minValue : constants.uint64.minValue);
+                case type.single: return constants.single.minValue;
+                case type.double: return constants.double.minValue;
+                case type.decimal: return constants.decimal.minValue;
                 default: return 0;
             }
         }
 
         function getMaxValue(fieldType, signed) {
+            var constants = getConstants();
+            var type = constants.fieldType;
+
             switch (fieldType) {
-                case fieldType.byte: return (signed ? constants.sbyte.maxValue : constants.byte.maxValue);
-                case fieldType.int16: return (signed ? constants.int16.maxValue : constants.uint16.maxValue);
-                case fieldType.int32: return (signed ? constants.int32.maxValue : constants.uint32.maxValue);
-                case fieldType.int64: return (signed ? constants.int64.maxValue : constants.uint64.maxValue);
-                case fieldType.single: return constants.single.maxValue;
-                case fieldType.double: return constants.double.maxValue;
-                case fieldType.decimal: return constants.decimal.maxValue;
+                case type.byte: return (signed ? constants.sbyte.maxValue : constants.byte.maxValue);
+                case type.int16: return (signed ? constants.int16.maxValue : constants.uint16.maxValue);
+                case type.int32: return (signed ? constants.int32.maxValue : constants.uint32.maxValue);
+                case type.int64: return (signed ? constants.int64.maxValue : constants.uint64.maxValue);
+                case type.single: return constants.single.maxValue;
+                case type.double: return constants.double.maxValue;
+                case type.decimal: return constants.decimal.maxValue;
                 default: return 0;
             }
+        }
+
+        function clampNumericValueToRange(type, id) {
+            var minValueElement = $('#' + type + 'MinValue-' + id);
+            var maxValueElement = $('#' + type + 'MaxValue-' + id);
+
+            var correctedMinValue = keepInRange(minValueElement.val(), minValueElement.attr('min'), minValueElement.attr('max'));
+            var correctedMaxValue = keepInRange(maxValueElement.val(), maxValueElement.attr('min'), maxValueElement.attr('max'));
+
+            minValueElement.val(correctedMinValue);
+            maxValueElement.val(correctedMaxValue);
+        }
+
+        function keepInRange(value, minValue, maxValue) {
+            if (value && minValue && maxValue) {
+                return Math.min(Math.max(+minValue, +value), +maxValue);
+            }
+
+            return 0;
         }
     </script>
     @RenderSection("scripts", required: false)

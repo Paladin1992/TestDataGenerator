@@ -14,6 +14,7 @@ using TestDataGenerator.Web.Models;
 
 namespace TestDataGenerator.Web.Controllers
 {
+    [Authorize]
     public class SetupController : Controller
     {
         private readonly IDataService _dataService;
@@ -84,7 +85,6 @@ namespace TestDataGenerator.Web.Controllers
             _setupService.UpdateSetup(_mapper.Map<UserSetup>(model));
         }
 
-#warning Implementálni kell
         [HttpGet]
         public ActionResult Create()
         {
@@ -101,6 +101,9 @@ namespace TestDataGenerator.Web.Controllers
         public ActionResult Create(SetupCreateViewModel model)
         {
             // TODO
+            model.CreateDate = DateTime.Now;
+            ViewBag.FieldTypeInfos = GetFieldTypeInfos();
+
             return View(model);
         }
 
@@ -136,9 +139,7 @@ namespace TestDataGenerator.Web.Controllers
                 {
                     Value = (int)e,
                     Name = e.ToString(),
-                    Description = e.GetAttributeOfType<DescriptionAttribute>()?.Description ?? "",
-                    HasMinValue = e.GetAttributeOfType<HasExtremeAttribute>()?.HasMinValue ?? false,
-                    HasMaxValue = e.GetAttributeOfType<HasExtremeAttribute>()?.HasMaxValue ?? false
+                    Description = e.GetAttributeOfType<DescriptionAttribute>()?.Description ?? ""
                 }).ToList();
 
             return result;

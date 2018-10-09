@@ -59,7 +59,6 @@ namespace TestDataGenerator.Data.Enums
         /// * mai dátum, * egyéb: éééé.hh.nn)
         /// </summary>
         [Description("Dátum és idő")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
         DateTime = 3,
 
         /// <summary>
@@ -75,15 +74,13 @@ namespace TestDataGenerator.Data.Enums
         /// checkbox: legyen benne: [input])
         /// </summary>
         [Description("Szöveg")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
         Text = 5,
 
         /// <summary>
         /// Egy 8 bites egész számot generál.
         /// (Tipp: checkbox: előjeles)
         /// </summary>
-        [Description("Egész szám (8 bites)")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
+        [Description("Egész szám (8 bites)")]        
         Byte = 6,
 
         /// <summary>
@@ -91,7 +88,6 @@ namespace TestDataGenerator.Data.Enums
         /// (Tipp: checkbox: előjeles)
         /// </summary>
         [Description("Egész szám (16 bites)")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
         Int16 = 7,
 
         /// <summary>
@@ -99,7 +95,6 @@ namespace TestDataGenerator.Data.Enums
         /// (Tipp: checkbox: előjeles)
         /// </summary>
         [Description("Egész szám (32 bites)")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
         Int32 = 8,
 
         /// <summary>
@@ -107,28 +102,24 @@ namespace TestDataGenerator.Data.Enums
         /// (Tipp: checkbox: előjeles)
         /// </summary>
         [Description("Egész szám (64 bites)")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
         Int64 = 9,
 
         /// <summary>
         /// Egy 32 bites lebegőpontos számot generál.
         /// </summary>
         [Description("Valós szám (32 bites lebegőpontos)")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
         Single = 10,
 
         /// <summary>
         /// Egy 64 bites lebegőpontos számot generál.
         /// </summary>
         [Description("Valós szám (64 bites lebegőpontos)")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
         Double = 11,
 
         /// <summary>
         /// Egy 128 bites decimális számot generál.
         /// </summary>
         [Description("Decimális (128 bites)")]
-        [HasExtreme(HasMinValue = true, HasMaxValue = true)]
         Decimal = 12,
 
         /// <summary>

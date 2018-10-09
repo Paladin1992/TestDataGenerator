@@ -394,6 +394,15 @@ namespace TestDataGenerator.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Biztosan törölni szeretné ezt a mezőt?.
+        /// </summary>
+        public static string Warn_Confirm_RemoveField {
+            get {
+                return ResourceManager.GetString("Warn_Confirm_RemoveField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A jelszónak legalább {0} karakter hosszúnak kell lennie..
         /// </summary>
         public static string Warn_Pw_MinLength {

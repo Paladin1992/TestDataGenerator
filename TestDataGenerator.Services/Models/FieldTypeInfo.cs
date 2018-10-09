@@ -7,9 +7,5 @@
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        public bool HasMinValue { get; set; }
-
-        public bool HasMaxValue { get; set; }
     }
 }

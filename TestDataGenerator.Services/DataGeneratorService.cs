@@ -1183,7 +1183,7 @@ namespace TestDataGenerator.Services
                 }
             }
             // value should be a floating-point number
-            else if (numericFieldType == FieldType.Float
+            else if (numericFieldType == FieldType.Single
                     || numericFieldType == FieldType.Double
                     || numericFieldType == FieldType.Decimal)
             {
@@ -1192,7 +1192,7 @@ namespace TestDataGenerator.Services
                     // check whether the desired specific type's range would fit
                     switch (numericFieldType)
                     {
-                        case FieldType.Float:
+                        case FieldType.Single:
                         {
                             conversionSucceeded = float.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out float tempValue);
                             valueIsInRange = tempValue.IsInRange(float.MinValue, float.MaxValue);
